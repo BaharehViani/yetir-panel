@@ -1,0 +1,55 @@
+@use "../css/fonts.css";
+@use "./layout";
+
+*,
+*::after,
+*::before {
+  font-family: Yekan Bakh FaNum, serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Yekan Bakh FaNum, serif !important;
+  font-weight: 300;
+  direction: rtl;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea {
+  font-family: Yekan Bakh FaNum !important;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+ul,
+ol {
+  list-style-position: inside;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+// Vuetify fix
+.v-btn {
+  letter-spacing: 0 !important;
+}
