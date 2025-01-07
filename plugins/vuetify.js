@@ -21,7 +21,7 @@ export default defineNuxtPlugin(nuxtApp => {
           colors: {
             background: '#ffffff',
             surface: '#ffffff',
-            primary: '#2A717D',
+            primary: '#4880ff',
             'primary-darken-1': '#1f5862',
             secondary: '#4791A5',
             'secondary-darken-1': '#3a7d8f',
@@ -42,3 +42,6 @@ export default defineNuxtPlugin(nuxtApp => {
 
   nuxtApp.vueApp.use(vuetify)
 })
+
+
+
