@@ -58,10 +58,10 @@
       </v-app-bar>
 
       <v-main
-        class="bg-red-50 px-8 mt-6"
+        class="bg-red-50 px-8 mt-6 pl-8"
         :style="`padding-right: ${mainContentPaddingFromRight}px !important;`"
       >
-        Main Content Main Content Main Content Main Content Main Content Main Content Main Content Main Content Main Content
+        <slot />
       </v-main>
     </v-layout>
   </v-app>

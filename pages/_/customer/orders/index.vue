@@ -1,13 +1,16 @@
 <template>
   <div>
-    INDEX
+
   </div>
 </template>
 
 <script setup>
+
 definePageMeta({
-  layout: 'panel',
+  layout: 'panel'
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
