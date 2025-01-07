@@ -26,7 +26,7 @@
         رمز خود را فراموش کرده‌اید؟ 
       </nuxt-link>
       <v-divider class="my-4"></v-divider>
-      <v-btn block color="primary" class="mt-4 w-[418px] h-40 opacity-90 rounded-lg" type="submit">
+      <v-btn to="dashboard" block color="primary" class="mt-4 w-[418px] h-40 opacity-90 rounded-lg" type="submit">
       ورود
       </v-btn>
 
@@ -44,7 +44,7 @@
 <script setup>
 import axiosInstance from '~/utils/axiosinstance';
 
-
+import Cookies from 'js-cookie';
 import { useUserStore } from '../store/userStore'
 const userStore = useUserStore()
 
@@ -57,7 +57,8 @@ const loginFormLogInHandler = async () => {
  try {
     const response = await axiosInstance.post('/users/authenticate', loginForm.value)
     console.log(response)
-    Cookies.set('auth_token', response.payload.token)
+    Cookies.set('auth_token', response.data.payload.token)
+    axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.payload.token
   } catch (e) {
     console.log(e)
   }
