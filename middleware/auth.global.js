@@ -28,9 +28,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     userStore.logIn(userToken, response.data)
 
-    if (insidePanel) {
-      return
-    } else {
+    if (!insidePanel) {
       return navigateTo('/_')
     }
   } catch (e) {
@@ -39,8 +37,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (insidePanel) {
       return navigateTo('/login')
-    } else {
-      return
     }
   }
 })
