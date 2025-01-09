@@ -86,6 +86,7 @@ const loginFormLogInHandler = async () => {
       'Bearer ' + response.data.payload.token
 
     navigateTo('/')
+
   } catch (e) {
     console.log(e)
   } finally {

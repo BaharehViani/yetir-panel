@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pr-6 pt-8 text-3xl font-bold text-[#141A31]">ایجاد سفارش جدید</div>
+    <div class="pr-6 pt-8 text-3xl font-bold text-[#141A31]">ایجاد درخواست جدید</div>
     <div>
       <v-form class="flex-column pr-6 mt-8" @submit.prevent="orderRequestFormSubmitHandler">
         <v-row>
@@ -107,6 +107,7 @@ const newOrderRequestForm = ref({
   dropoff_location: null,
   weight: null,
 })
+
 const orderRequestFormSubmitHandler = async () => {
   try {
     const response = await axiosInstance.post('/customer/order-requests', newOrderRequestForm.value)
@@ -120,6 +121,14 @@ const orderRequestFormSubmitHandler = async () => {
       timer: 2000,
       showConfirmButton: false,
     })
+
+    newOrderRequestForm.value = {
+      type: null,
+      description: null,
+      pickup_location: null,
+      dropoff_location: null,
+      weight: null,
+    }
 
   } catch (e) {
     console.log(e)

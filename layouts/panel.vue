@@ -4,7 +4,7 @@
       <v-navigation-drawer id="drawer">
         <div class="h-full flex flex-col">
           <div id="logo" class="flex justify-center w-full">
-            <div class="text-[#4880FF] text-2xl font-extrabold		">
+            <div class="text-[#4880FF] text-xl font-extrabold">
               Yetir Delivery
             </div>
           </div>
@@ -14,19 +14,25 @@
           <div id="menu-item" class="py-10 flex-grow-1 pt-0">
             <div class="px-4">
               <nuxt-link class="rounded p-3 flex items-center mb-2">
-                <v-avatar class="bg-red mb-4"></v-avatar>
-                <div class="tet-white font-bold  flex-column mr-2">
+                <v-avatar>
+                  <v-img :src="Avatar" alt="avatar" />
+                </v-avatar>
+                <div class="tet-white font-bold flex-column mr-2">
                   {{ UserName }}
-                  <div class="text-xs text-[#565656] font-weight: 600:">{{Role}}</div>
+                  <div class="text-xs text-[#565656] font-weight: 600:">
+                    {{ roleInPersian }}
+                  </div>
                 </div>
-
               </nuxt-link>
               <nuxt-link
                 v-for="item in menuItems"
                 :to="item.link"
                 class="bg-blue-500 rounded px-3 py-2 flex items-center mb-2"
               >
-                <v-icon :icon="item.icon" class="text-white rotate-180"></v-icon>
+                <v-icon
+                  :icon="item.icon"
+                  class="text-white"
+                ></v-icon>
                 <div class="text-white font-bold mr-4">{{ item.label }}</div>
               </nuxt-link>
             </div>
@@ -35,12 +41,15 @@
 
               <div class="px-4">
                 <nuxt-link
-                  class="rounded bg-[#f7f8fa] p-3 flex items-center mb-2"
+                  class="rounded bg-[#f7f8fa] p-3 flex items-center mb-2 cursor-pointer"
                 >
                   <v-icon icon="mdi-face-agent" class="black"></v-icon>
                   <div class="tet-white font-bold mr-2">تماس با پشتیبانی</div>
                 </nuxt-link>
-                <nuxt-link class="rounded bg-[#f7f8fa] p-3 flex items-center">
+                <nuxt-link
+                  class="rounded bg-[#f7f8fa] p-3 flex items-center cursor-pointer"
+                  @click="logOutHandler"
+                >
                   <v-icon icon="mdi-logout" class="black"></v-icon>
                   <div class="tet-white font-bold mr-2">خروج از حساب</div>
                 </nuxt-link>
@@ -70,14 +79,23 @@
 </template>
 
 <script setup>
-import Logo from '../assets/images/Logo.png'
+import Avatar from '../assets/images/avatar.svg'
 import { useUserStore } from '~/store/userStore.js'
 
 const userStore = useUserStore()
 
-const UserName = userStore.userData.first_name +' '+ userStore.userData.last_name
+const UserName =
+  userStore.userData.first_name + ' ' + userStore.userData.last_name
 
 const Role = userStore.userData.role
+
+const roleInPersian = computed(
+  () =>
+    ({
+      customer: 'کاربر',
+      courier: 'پیک',
+    })[userStore.userData.role],
+)
 
 const menuItems = ref([
   {
@@ -92,10 +110,14 @@ const menuItems = ref([
   },
   {
     link: '/_/customer/orders/new',
-    label: 'ایجاد سفارش جدید',
+    label: '  لیست درخواست ها',
+    icon: 'mdi-list-status',
+  },
+  {
+    link: '/_/customer/orders/new',
+    label: 'ایجاد درخواست جدید',
     icon: 'mdi-plus-box-outline',
   },
-
 ])
 
 const mainContentPaddingFromRight = ref(0)
@@ -105,6 +127,11 @@ onMounted(() => {
   const bc = document.getElementById('drawer').getBoundingClientRect()
   mainContentPaddingFromRight.value = bc.width + 50
 })
+
+const logOutHandler = () => {
+  userStore.logOut()
+  navigateTo('/')
+}
 </script>
 
 <style lang="scss" scoped>
