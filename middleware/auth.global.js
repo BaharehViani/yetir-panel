@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import axiosInstance from '~/utils/axiosinstance.js'
 import { useUserStore } from '~/store/userStore.js'
-import { tr } from 'vuetify/locale'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const ignoredPath = ['/login', '/sign-up']

@@ -1,85 +1,112 @@
 <template>
-  <div class="w-274 pb-8 bg-[#FFFFFF] new-order flex-column rounded-2xl pl-6">
-<!--    <v-data-table-->
-<!--      :headers="headers"-->
-<!--      :items="items"-->
-<!--      class="elevation-1"-->
-<!--      item-value="id"-->
-<!--    >-->
-<!--      <template #item.status="{ item }">-->
-<!--        <span :class="getStatusClass(item.status)">{{ item.status }}</span>-->
-<!--      </template>-->
-<!--    </v-data-table>-->
+  <div>
+    <div v-if="items.length > 0">
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        disable-sort
+        hide-default-footer
+        color="red"
+        class="mr-2"
+      >
+        <template class="w-36 align-center" #item.id="{ item }">
+          {{ item.id }}
+        </template>
+        <template class="w-36" #item.type="{ item }">
+          {{ item.order_request.type }}
+        </template>
+        <template class="w-36" #item.updated-at="{ item }">
+          {{ item.updated_at }}
+        </template>
+        <template #item.pickup_location="{ item }">
+          {{ item.order_request.pickup_location }}
+        </template>
+        <template #item.dropOff_location="{ item }">
+          {{ item.order_request.dropoff_location }}
+        </template>
+        <template #item.fee="{ item }">
+          {{ item.order_request.cost }}
+        </template>
+        <template #item.status="{ item }">
+          <v-chip :class="getStatusClass(item.status)" variant="outlined">
+            {{ item.status }}
+          </v-chip>
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 <script setup>
-import axiosInstance from "~/utils/axiosinstance.js";
-import Cookies from 'js-cookie';
+import axiosInstance from '~/utils/axiosinstance.js'
 
 definePageMeta({
-  layout: 'panel'
+  layout: 'panel',
 })
 
-const items = ref({
-  id: null,
-  type: null,
-  created_at: null,
-  pickup_location: null,
-  dropoff_location: null,
-  fee: null,
-  status: null
-})
+const items = ref([])
 
 // Table headers
 const headers = ref([
-  { text: "ID", value: "id" },
-  { text: "Type", value: "type" },
-  { text: "Created At", value: "created_at" },
-  { text: "Pickup Location", value: "pickup_location" },
-  { text: "Dropoff Location", value: "dropoff_location" },
-  { text: "Fee", value: "fee" },
-  { text: "Status", value: "status" },
-]);
+  { title: 'شماره', key: 'id' },
+  { title: 'نوع بسته ارسالی', key: 'type' },
+  { title: 'تاریخ ثبت', key: 'updated-at' },
+  { title: 'مبدا', key: 'pickup_location' },
+  { title: 'مقصد', key: 'dropOff_location' },
+  { title: 'هزینه ارسال', key: 'fee' },
+  { title: 'وضعیت', key: 'status' },
+])
 
 // Fetch order list
 const fetchOrderList = async () => {
   try {
-    const response = await axiosInstance.get("/customer/orders");
-    items.value = response.data;
-    console.log(response)// Update the table data with the fetched response
+    const response = await axiosInstance.get('/customer/orders')
+    items.value = response.data
+    console.log(response) // Update the table data with the fetched response
   } catch (e) {
-    console.error("Error fetching order list:", e);
+    console.error('Error fetching order list:', e)
   }
-};
+}
 
 // Status class handler
 const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
-    case "completed":
-      return "text-green";
-    case "rejected":
-      return "text-red";
-    case "pending":
-      return "text-orange";
+    case 'waiting_for_pickup':
+      return 'text-yellow'
+    case 'in_delivery':
+      return 'text-blue'
+    case 'delivered':
+      return 'text-green'
+    case 'canceled':
+      return 'text-red'
     default:
-      return "";
+      return ''
   }
-};
+}
 
-// Fetch data on component mount
-onMounted(fetchOrderList);
+//Fetch data on component mount
+onMounted(() => {
+  fetchOrderList()
+})
 </script>
-
 
 <style lang="scss" scoped>
 .text-green {
-  color: green;
+  background-color: #00b69b;
+  opacity: 20%;
 }
+
 .text-red {
-  color: red;
+  background-color: #ef3826;
+  opacity: 20%;
 }
-.text-orange {
-  color: orange;
+
+.text-blue {
+  background-color: #6226ef;
+  opacity: 20%;
+}
+
+.text-yellow {
+  background-color: #fec53d;
+  opacity: 80%;
 }
 </style>
-

@@ -14,7 +14,7 @@
           <div id="menu-item" class="py-10 flex-grow-1 pt-0">
             <div class="px-4">
               <nuxt-link class="rounded p-3 flex items-center mb-2">
-                <v-avatar color="#8FD14F mb-4"></v-avatar>
+                <v-avatar class="bg-red mb-4"></v-avatar>
                 <div class="tet-white font-bold  flex-column mr-2">
                   {{ UserName }}
                   <div class="text-xs text-[#565656] font-weight: 600:">{{Role}}</div>
@@ -26,8 +26,8 @@
                 :to="item.link"
                 class="bg-blue-500 rounded px-3 py-2 flex items-center mb-2"
               >
-                <v-icon :icon="item.icon" class="text-white"></v-icon>
-                <div class="tet-white font-bold mr-3">{{ item.label }}</div>
+                <v-icon :icon="item.icon" class="text-white rotate-180"></v-icon>
+                <div class="text-white font-bold mr-4">{{ item.label }}</div>
               </nuxt-link>
             </div>
             <div>
@@ -58,10 +58,12 @@
       </v-app-bar>
 
       <v-main
-        class="bg-[#F7F8FA] px-8 mt-6 pl-8"
+        class="bg-[#F7F8FA] mt-6"
         :style="`padding-right: ${mainContentPaddingFromRight}px !important;`"
       >
-        <slot />
+        <div class="p-10 bg-white ml-6 rounded-2xl">
+          <slot />
+        </div>
       </v-main>
     </v-layout>
   </v-app>
@@ -69,20 +71,31 @@
 
 <script setup>
 import Logo from '../assets/images/Logo.png'
+import { useUserStore } from '~/store/userStore.js'
 
-const UserName = 'Faezeh Alimoradi'
-const Role = 'Courier'
+const userStore = useUserStore()
+
+const UserName = userStore.userData.first_name +' '+ userStore.userData.last_name
+
+const Role = userStore.userData.role
+
 const menuItems = ref([
   {
-    link: '/',
-    label: 'خانه',
-    icon: 'mdi-home',
+    link: '/_',
+    label: 'داشبورد',
+    icon: 'mdi-view-dashboard',
   },
   {
-    link: '/test',
-    label: 'تست',
-    icon: 'mdi-account-convert',
+    link: '/_/customer/orders/',
+    label: 'لیست سفارشات',
+    icon: 'mdi-format-list-bulleted',
   },
+  {
+    link: '/_/customer/orders/new',
+    label: 'ایجاد سفارش جدید',
+    icon: 'mdi-plus-box-outline',
+  },
+
 ])
 
 const mainContentPaddingFromRight = ref(0)
