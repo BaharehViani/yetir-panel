@@ -17,16 +17,17 @@
       <v-text-field
       v-model="loginForm.password"
       label="رمز عبور"
-      type="password"
+      :type="showPassword ? 'text' : 'password'"
       outlined
       dense
       append-inner-icon="mdi-eye"
+      @click:append-inner="showPassword = !showPassword"
       ></v-text-field>
       <nuxt-link to="/forget-pass" class="text-start text-gray-600 text-md font-medium pb-9" >
         رمز خود را فراموش کرده‌اید؟ 
       </nuxt-link>
       <v-divider class="my-4"></v-divider>
-      <v-btn to="dashboard" block color="primary" class="mt-4 w-[418px] h-40 opacity-90 rounded-lg" type="submit">
+      <v-btn to="" block color="primary" class="mt-4 w-[418px] h-40 opacity-90 rounded-lg" type="submit">
       ورود
       </v-btn>
 
@@ -63,6 +64,7 @@ const loginFormLogInHandler = async () => {
     console.log(e)
   }
 }
+const showPassword = ref(false)
 
 definePageMeta({
     layout: 'form'
