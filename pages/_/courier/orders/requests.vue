@@ -26,15 +26,12 @@
         <template #item.dropOff_location="{ item }">
           {{ item.dropoff_location }}
         </template>
-        <template #item.cost="{ item }">
-          {{ item.cost + ' تومان' }}
+        <template #item.accept="{ item }">
+<!--          {{ item.accept }}-->
         </template>
         <template #item.status="{ item }">
-          <v-chip
-            :class="getStatusClass(item.status)"
-          >
-
-            {{ item.status }}
+          <v-chip>
+            قبول سفارش
           </v-chip>
         </template>
       </v-data-table>
@@ -61,15 +58,16 @@ const headers = ref([
   { title: 'توضیحات', key: 'description' },
   { title: 'وزن', key: 'weight' },
   { title: 'هزینه ارسال', key: 'cost' },
-  { title: 'وضعیت', key: 'status' },
+  { title: 'پذیرش سفارش', key: 'accept' },
 ])
 
 // Fetch order list
 const fetchOrderList = async () => {
   try {
-    const response = await axiosInstance.get('/customer/order-requests/')
+    const response = await axiosInstance.get('/courier/order-requests/')
     items.value = response.data
     console.log(response) // Update the table data with the fetched response
+
   } catch (e) {
     console.error('Error fetching order list:', e)
   }

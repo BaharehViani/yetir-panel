@@ -27,11 +27,11 @@
               <nuxt-link
                 v-for="item in menuItems"
                 :to="item.link"
-                class="bg-blue-500 rounded px-3 py-2 flex items-center mb-2"
+                :class="`rounded px-3 py-2 flex items-center mb-2 ${item.class}`"
               >
                 <v-icon
                   :icon="item.icon"
-                  :class="`text-white ${item.class}`"
+                  :class="`text-white ${item.iconClass}`"
                 ></v-icon>
                 <div class="text-white font-bold mr-4">{{ item.label }}</div>
               </nuxt-link>
@@ -97,60 +97,71 @@ const roleInPersian = computed(
     })[userStore.userData.role],
 )
 
-const menuItems = computed(() => ({
-  customer: [
-    {
-      link: '/_',
-      label: 'داشبورد',
-      icon: 'mdi-view-dashboard',
-      class: '',
-    },
-    {
-      link: '/_/customer/orders/',
-      label: 'لیست سفارشات',
-      icon: 'mdi-format-list-bulleted',
-      class: 'rotate-180'
-    },
-    {
-      link: '/_/customer/orders/requests',
-      label: '  لیست درخواست ها',
-      icon: 'mdi-list-status',
-      class: '',
-    },
-    {
-      link: '/_/customer/orders/new',
-      label: 'ایجاد درخواست جدید',
-      icon: 'mdi-plus-box-outline',
-      class: '',
-    },
-  ],
-  courier: [
-    {
-      link: '/_',
-      label: 'داشبورد',
-      icon: 'mdi-view-dashboard',
-      class: '',
-    },
-    {
-      link: '/_/customer/orders/new',
-      label: 'سفارش جاری',
-      icon: 'mdi-timer-marker-outline',
-      class: '',
-    },
-    {
-      link: '/_/customer/orders/',
-      label: 'لیست سفارشات',
-      icon: 'mdi-format-list-bulleted',
-      class: 'rotate-180'
-    },
-    {
-      link: '/_/customer/orders/requests',
-      label: '  لیست درخواست ها',
-      icon: 'mdi-list-status',
-      class: '',
-    },
-  ]
-})[userStore.userData.role])
+const menuItems = computed(
+  () =>
+    ({
+      customer: [
+        {
+          link: '/_',
+          label: 'داشبورد',
+          icon: 'mdi-view-dashboard',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/customer/orders/',
+          label: 'لیست سفارشات',
+          icon: 'mdi-format-list-bulleted',
+          iconClass: 'rotate-180',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/customer/orders/requests',
+          label: '  لیست درخواست ها',
+          icon: 'mdi-list-status',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/customer/orders/new',
+          label: 'ایجاد درخواست جدید',
+          icon: 'mdi-plus-box-outline',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+      ],
+      courier: [
+        {
+          link: '/_/courier/',
+          label: 'داشبورد',
+          icon: 'mdi-view-dashboard',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/courier/orders/current',
+          label: 'سفارش جاری',
+          icon: 'mdi-timer-marker-outline',
+          iconClass: '',
+          class: 'bg-[#8FD14F]',
+        },
+        {
+          link: '/_/courier/orders/',
+          label: 'لیست سفارشات',
+          icon: 'mdi-format-list-bulleted',
+          iconClass: 'rotate-180',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/courier/orders/requests',
+          label: '  لیست درخواست ها',
+          icon: 'mdi-list-status',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+      ],
+    })[userStore.userData.role],
+)
 
 const mainContentPaddingFromRight = ref(0)
 
