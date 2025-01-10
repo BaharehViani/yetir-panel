@@ -20,9 +20,16 @@
       >
         لطفا یکی از گزینه‌های زیر را انتخاب کنید:
       </div>
+
+
       <v-divider class="my-4"></v-divider>
       <div class="flex flex-col items-center">
         <div class="w-2/3">
+
+          <div class="mb-5">
+            <PlateNumberInput v-model="signUpForm.plateNum" />
+          </div>
+
           <v-btn
             base-color="primary"
             rounded="lg"
@@ -197,14 +204,19 @@
               :items="['موتور', 'خودرو']"
               variant="outlined"
             ></v-select>
-            <v-text-field
-              v-model="signUpForm.plateNum"
-              label="شماره پلاک"
-              placeholder="۱۵-۲۲۲۲"
-              outlined
-              dense
-            >
-            </v-text-field>
+
+<!--            <PlateNumberInput v-model="signUpForm.plateNum" />-->
+
+<!--            <v-text-field-->
+<!--              v-model="signUpForm.plateNum"-->
+<!--              label="شماره پلاک"-->
+<!--              placeholder="۱۵-۲۲۲۲"-->
+<!--              outlined-->
+<!--              dense-->
+<!--            >-->
+<!--            </v-text-field>-->
+
+
             <v-text-field
               v-model="signUpForm.maxCapacity"
               label="ظرفیت بار"
@@ -352,6 +364,7 @@
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
 import Cookies from 'js-cookie'
+import PlateNumberInput from '~/components/inputs/PlateNumberInput.vue'
 
 definePageMeta({
   layout: 'sign-up-steps',
