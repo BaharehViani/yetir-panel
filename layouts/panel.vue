@@ -31,7 +31,7 @@
               >
                 <v-icon
                   :icon="item.icon"
-                  class="text-white"
+                  :class="`text-white ${item.class}`"
                 ></v-icon>
                 <div class="text-white font-bold mr-4">{{ item.label }}</div>
               </nuxt-link>
@@ -70,7 +70,7 @@
         class="bg-[#F7F8FA] mt-6"
         :style="`padding-right: ${mainContentPaddingFromRight}px !important;`"
       >
-        <div class="p-10 bg-white ml-6 rounded-2xl">
+        <div class="p-6 bg-white ml-6 rounded-2xl">
           <slot />
         </div>
       </v-main>
@@ -97,28 +97,60 @@ const roleInPersian = computed(
     })[userStore.userData.role],
 )
 
-const menuItems = ref([
-  {
-    link: '/_',
-    label: 'داشبورد',
-    icon: 'mdi-view-dashboard',
-  },
-  {
-    link: '/_/customer/orders/',
-    label: 'لیست سفارشات',
-    icon: 'mdi-format-list-bulleted',
-  },
-  {
-    link: '/_/customer/orders/new',
-    label: '  لیست درخواست ها',
-    icon: 'mdi-list-status',
-  },
-  {
-    link: '/_/customer/orders/new',
-    label: 'ایجاد درخواست جدید',
-    icon: 'mdi-plus-box-outline',
-  },
-])
+const menuItems = computed(() => ({
+  customer: [
+    {
+      link: '/_',
+      label: 'داشبورد',
+      icon: 'mdi-view-dashboard',
+      class: '',
+    },
+    {
+      link: '/_/customer/orders/',
+      label: 'لیست سفارشات',
+      icon: 'mdi-format-list-bulleted',
+      class: 'rotate-180'
+    },
+    {
+      link: '/_/customer/orders/requests',
+      label: '  لیست درخواست ها',
+      icon: 'mdi-list-status',
+      class: '',
+    },
+    {
+      link: '/_/customer/orders/new',
+      label: 'ایجاد درخواست جدید',
+      icon: 'mdi-plus-box-outline',
+      class: '',
+    },
+  ],
+  courier: [
+    {
+      link: '/_',
+      label: 'داشبورد',
+      icon: 'mdi-view-dashboard',
+      class: '',
+    },
+    {
+      link: '/_/customer/orders/new',
+      label: 'سفارش جاری',
+      icon: 'mdi-timer-marker-outline',
+      class: '',
+    },
+    {
+      link: '/_/customer/orders/',
+      label: 'لیست سفارشات',
+      icon: 'mdi-format-list-bulleted',
+      class: 'rotate-180'
+    },
+    {
+      link: '/_/customer/orders/requests',
+      label: '  لیست درخواست ها',
+      icon: 'mdi-list-status',
+      class: '',
+    },
+  ]
+})[userStore.userData.role])
 
 const mainContentPaddingFromRight = ref(0)
 

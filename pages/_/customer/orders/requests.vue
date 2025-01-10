@@ -1,36 +1,33 @@
 <template>
-  <div>
+  <div  class="p-0">
     <div v-if="items.length > 0">
       <v-data-table
         :headers="headers"
         :items="items"
         hide-default-footer
+        class="text-center"
         color="red"
-        class="mr-2"
       >
-        <template class="w-36" #item.id="{ item }">
-          {{ item.id }}
+        <template class="w-36 text-center" #item.id="{ index }">
+          {{ index + 1 }}
         </template>
         <template class="w-36" #item.type="{ item }">
-          {{ item.order_request.type }}
+          {{ item.type }}
+        </template>
+        <template class="w-36" #item.created-at="{ item }">
+          {{ item.created_at }}
         </template>
         <template class="w-36" #item.updated-at="{ item }">
           {{ item.updated_at }}
         </template>
         <template #item.pickup_location="{ item }">
-          {{ item.order_request.pickup_location }}
+          {{ item.pickup_location }}
         </template>
         <template #item.dropOff_location="{ item }">
-          {{ item.order_request.dropoff_location }}
-        </template>
-        <template #item.description="{ item }">
-          {{ item.order_request.description }}
-        </template>
-        <template #item.weight="{ item }">
-          {{ item.order_request.weight }}
+          {{ item.dropoff_location }}
         </template>
         <template #item.cost="{ item }">
-          {{ item.order_request.cost }}
+          {{ item.cost }}
         </template>
         <template #item.status="{ item }">
           <v-chip
@@ -44,6 +41,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
 
