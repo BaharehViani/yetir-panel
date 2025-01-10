@@ -44,7 +44,7 @@ const inputTypeOptions = ref([
   { text: 'موتور', value: 'motorcycle' },
 ])
 
-const inputType = ref('car')
+const inputType = ref(null)
 
 const letterOptions = ref([
   'الف',

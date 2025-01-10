@@ -21,10 +21,6 @@
         لطفا یکی از گزینه‌های زیر را انتخاب کنید:
       </div>
 
-      <div class="mb-5">
-        <PlateNumberInput v-model="signUpForm.plateNum" />
-      </div>
-
       <v-divider class="my-4"></v-divider>
       <div class="flex flex-col items-center">
         <div class="w-2/3">
