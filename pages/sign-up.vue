@@ -21,15 +21,9 @@
         لطفا یکی از گزینه‌های زیر را انتخاب کنید:
       </div>
 
-
       <v-divider class="my-4"></v-divider>
       <div class="flex flex-col items-center">
         <div class="w-2/3">
-
-          <div class="mb-5">
-            <PlateNumberInput v-model="signUpForm.plateNum" />
-          </div>
-
           <v-btn
             base-color="primary"
             rounded="lg"
@@ -42,6 +36,7 @@
           >
             ثبت‌نام به عنوان راننده
           </v-btn>
+
           <v-divider class="my-2"></v-divider>
           <v-btn
             to=""
@@ -179,7 +174,7 @@
         </div>
         <v-divider class="my-3"></v-divider>
         <div class="flex justify-center mt-4">
-          <v-form class="w-2/3" @submit.prevent="signUpFormHandler">
+          <v-form class="w-2/3" @submit.prevent="step++">
             <v-text-field
               v-model="signUpForm.firstName"
               label="نام"
@@ -198,25 +193,6 @@
               outlined
               dense
             ></v-text-field>
-            <v-select
-              v-model="signUpForm.vehicle"
-              label="نوع وسیله"
-              :items="['موتور', 'خودرو']"
-              variant="outlined"
-            ></v-select>
-
-<!--            <PlateNumberInput v-model="signUpForm.plateNum" />-->
-
-<!--            <v-text-field-->
-<!--              v-model="signUpForm.plateNum"-->
-<!--              label="شماره پلاک"-->
-<!--              placeholder="۱۵-۲۲۲۲"-->
-<!--              outlined-->
-<!--              dense-->
-<!--            >-->
-<!--            </v-text-field>-->
-
-
             <v-text-field
               v-model="signUpForm.maxCapacity"
               label="ظرفیت بار"
@@ -292,7 +268,7 @@
 
         <v-divider class="my-3"></v-divider>
         <div class="flex justify-center mt-4">
-          <v-form class="w-2/3" @submit.prevent="signUpFormHandler">
+          <v-form class="w-2/3" @submit.prevent="step++">
             <v-text-field
               v-model="signUpForm.firstName"
               label="نام"
@@ -348,6 +324,39 @@
       <!--Customer-->
     </div>
 
+    <div v-if="step === 4">
+      <div
+        v-if="userType === 'courier'"
+        class="text-center text-gray-900 text-[25px] font-weight-bold"
+      >
+        اطلاعات وسیله نقلیه شما
+        <v-divider class="my-1"></v-divider>
+        <div class="text-center text-gray-600 text-[15px] font-weight-medium">
+          اطلاعات زیر را تکمیل کنید تا حساب کاربری شما را ایجاد کنیم
+        </div>
+        <v-divider class="my-3"></v-divider>
+        <PlateNumberInput
+          v-model="signUpForm.plateNum"
+          v-model:vehicle="signUpForm.vehicle"
+        />
+
+        <v-divider class="my-2"></v-divider>
+        <div class="flex flex-col items-center">
+          <div class="w-2/3">
+            <v-btn
+              color="secondary"
+              rounded="lg"
+              block
+              size="x-large"
+              class="font-weight-bold"
+              @click="signUpFormHandler"
+            >
+              ثبت وسیله
+            </v-btn>
+          </div>
+        </div>
+      </div>
+    </div>
     <v-divider class="my-4"></v-divider>
     <div class="text-center">
       <span>حساب کاربری دارید؟</span>
@@ -379,12 +388,12 @@ const selectUserTypeAndProceed = (type) => {
 }
 
 const signUpForm = ref({
-  vehicle: null,
   phone: null,
   password: null,
   firstName: null,
   lastName: null,
   plateNum: null,
+  vehicle: null,
   maxCapacity: null,
   image: null,
   nationalCode: null,
@@ -412,15 +421,16 @@ const signUpFormHandler = async () => {
   try {
     const response = await axiosInstance.post('/users/authenticate', {
       phone: signUpForm.value.phone,
-      password: signUpForm.value.password
+      password: signUpForm.value.password,
     })
     Cookies.set('auth_token', response.data.payload.token)
-    axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.payload.token
+    axiosInstance.defaults.headers.common['Authorization'] =
+      'Bearer ' + response.data.payload.token
   } catch (e) {
     console.log(e)
   }
 
-  if(userType.value === 'courier') {
+  if (userType.value === 'courier') {
     try {
       //const response = await axiosInstance.post('/users/authenticate', loginForm.value)
       const response = await axiosinstance.post('/courier/vehicles', {
