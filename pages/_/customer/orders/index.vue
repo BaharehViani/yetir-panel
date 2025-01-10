@@ -26,7 +26,10 @@
         <template #item.dropOff_location="{ item }">
           {{ item.order_request.dropoff_location }}
         </template>
-        <template #item.fee="{ item }">
+        <template #item.courier-name="{ item }">
+          {{ item.order_request.courier-name}}
+        </template>
+        <template #item.cost="{ item }">
           {{ item.order_request.cost }}
         </template>
         <template #item.status="{ item }">
@@ -58,7 +61,8 @@ const headers = ref([
   { title: 'تاریخ اخرین تغییرات', key: 'updated-at' },
   { title: 'مبدا', key: 'pickup_location' },
   { title: 'مقصد', key: 'dropOff_location' },
-  { title: 'هزینه ارسال', key: 'fee' },
+  { title: 'اطلاعات پیک', key: 'courier-name' },
+  { title: 'هزینه ارسال', key: 'cost' },
   { title: 'وضعیت', key: 'status' },
 ])
 
