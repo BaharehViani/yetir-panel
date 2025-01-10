@@ -47,7 +47,7 @@
             class="font-weight-bold"
             @click="() => selectUserTypeAndProceed('customer')"
           >
-            ثبت‌نام به عنوان فرستنده
+            ثبت‌نام به عنوان کاربر
           </v-btn>
         </div>
       </div>
@@ -238,6 +238,13 @@
               prepend-icon=""
               append-inner-icon="mdi-image"
             ></v-text-field>
+            <v-text-field
+              v-model="signUpForm.info"
+              label="توضیحات"
+              variant="outlined"
+              prepend-icon=""
+              append-inner-icon="mdi-info"
+            ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
             <div class="flex flex-col items-center">
@@ -249,7 +256,6 @@
                   size="x-large"
                   type="submit"
                   class="font-weight-bold"
-                  to="login"
                 >
                   ثـبـت‌نام
                 </v-btn>
@@ -320,7 +326,6 @@
                 size="x-large"
                 type="submit"
                 class="font-weight-bold"
-                to="login"
               >
                 ثـبـت‌نام
               </v-btn>
@@ -347,7 +352,6 @@
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
 import Cookies from 'js-cookie'
-import { ca } from 'vuetify/locale'
 
 definePageMeta({
   layout: 'sign-up-steps',
@@ -370,7 +374,8 @@ const signUpForm = ref({
   plateNum: null,
   maxCapacity: null,
   image: null,
-  nationalCode:null,
+  nationalCode: null,
+  info: null,
 })
 
 const showPassword = ref(false)
@@ -386,27 +391,46 @@ const signUpFormHandler = async () => {
       role: userType.value,
     })
     console.log(response)
-
-  } catch (e) {}
-
-  try {
-    //const response = await axiosInstance.post('/users/authenticate', loginForm.value)
-    const response = await axiosinstance.post('/courier/vehicles', {
-      type: signUpForm.value.vehicle,
-      plate_number: signUpForm.value.plateNum,
-      maximum_capacity: signUpForm.value.maxCapacity,
-    })
-    console.log(response)
-  } catch (e) {}
-
-  try {
-    axiosinstance.patch('/courier/info', {
-      photo_url: signUpForm.value.image,
-    })
+  } catch (e) {
+    console.log(e)
+    return
   }
 
-  catch (e) {}
+  try {
+    const response = await axiosInstance.post('/users/authenticate', {
+      phone: signUpForm.value.phone,
+      password: signUpForm.value.password
+    })
+    Cookies.set('auth_token', response.data.payload.token)
+    axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.payload.token
+  } catch (e) {
+    console.log(e)
+  }
 
+  if(userType.value === 'courier') {
+    try {
+      //const response = await axiosInstance.post('/users/authenticate', loginForm.value)
+      const response = await axiosinstance.post('/courier/vehicles', {
+        type: signUpForm.value.vehicle,
+        plate_number: signUpForm.value.plateNum,
+        maximum_capacity: signUpForm.value.maxCapacity,
+      })
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+      return
+    }
+
+    try {
+      const response = await axiosinstance.patch('/courier/info', {
+        photo_url: signUpForm.value.image,
+      })
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+      return
+    }
+  }
 
   // try {
   //   const response = await axiosInstance.post('/users/authenticate', loginForm.value)
@@ -416,5 +440,7 @@ const signUpFormHandler = async () => {
   // } catch (e) {
   //   console.log(e)
   // }
+
+  navigateTo('/')
 }
 </script>
