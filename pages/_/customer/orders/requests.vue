@@ -14,9 +14,6 @@
         <template class="w-36" #item.type="{ item }">
           {{ item.order_request.type }}
         </template>
-        <template class="w-36" #item.created-at="{ item }">
-          {{ item.created_at }}
-        </template>
         <template class="w-36" #item.updated-at="{ item }">
           {{ item.updated_at }}
         </template>
@@ -26,8 +23,11 @@
         <template #item.dropOff_location="{ item }">
           {{ item.order_request.dropoff_location }}
         </template>
-        <template #item.courier-name="{ item }">
-          {{ item.order_request.courier-name}}
+        <template #item.description="{ item }">
+          {{ item.order_request.description }}
+        </template>
+        <template #item.weight="{ item }">
+          {{ item.order_request.weight }}
         </template>
         <template #item.cost="{ item }">
           {{ item.order_request.cost }}
@@ -57,11 +57,11 @@ const items = ref([])
 const headers = ref([
   { title: 'شماره', key: 'id' },
   { title: 'نوع بسته ارسالی', key: 'type' },
-  { title: 'تاریخ ثبت', key: 'created-at' },
-  { title: 'تاریخ اخرین تغییرات', key: 'updated-at' },
+  { title: 'تاریخ ثبت', key: 'updated-at' },
   { title: 'مبدا', key: 'pickup_location' },
   { title: 'مقصد', key: 'dropOff_location' },
-  { title: 'اطلاعات پیک', key: 'courier-name' },
+  { title: 'توضیحات', key: 'description' },
+  { title: 'وزن', key: 'weight' },
   { title: 'هزینه ارسال', key: 'cost' },
   { title: 'وضعیت', key: 'status' },
 ])
@@ -69,7 +69,7 @@ const headers = ref([
 // Fetch order list
 const fetchOrderList = async () => {
   try {
-    const response = await axiosInstance.get('/customer/orders')
+    const response = await axiosInstance.get('/customer/order-requests/')
     items.value = response.data
     console.log(response) // Update the table data with the fetched response
   } catch (e) {
@@ -80,13 +80,11 @@ const fetchOrderList = async () => {
 // Status class handler
 const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
-    case 'waiting_for_pickup':
-      return 'text-orange'
-    case 'in_delivery':
+    case 'pending':
       return 'text-blue'
-    case 'delivered':
+    case 'accepted':
       return 'text-green'
-    case 'canceled':
+    case 'declined':
       return 'text-red'
     default:
       return ''
