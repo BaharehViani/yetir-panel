@@ -268,7 +268,7 @@
 
         <v-divider class="my-3"></v-divider>
         <div class="flex justify-center mt-4">
-          <v-form class="w-2/3" @submit.prevent="step++">
+          <v-form class="w-2/3" @submit.prevent="signUpFormHandler">
             <v-text-field
               v-model="signUpForm.firstName"
               label="نام"
