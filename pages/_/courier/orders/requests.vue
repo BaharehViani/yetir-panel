@@ -8,8 +8,8 @@
         class="text-center"
         color="red"
       >
-        <template class="w-36 text-center" #item.id="{ index }">
-          {{ index + 1 }}
+        <template class="w-36 text-center" #item.id="{ item }">
+          {{ item.code }}
         </template>
         <template class="w-36" #item.type="{ item }">
           {{ item.type }}
@@ -26,11 +26,14 @@
         <template #item.dropOff_location="{ item }">
           {{ item.dropoff_location }}
         </template>
-        <template #item.accept="{ item }">
-<!--          {{ item.accept }}-->
+        <template #item.weight="{ item }">
+          {{ item.weight + ' گرم' }}
         </template>
-        <template #item.status="{ item }">
-          <v-chip>
+        <template #item.cost="{ item }">
+          {{ item.cost + ' تومان' }}
+        </template>
+        <template #item.accept="{ item }">
+          <v-chip class="cursor-pointer" @click="orderAccepted(item.id)">
             قبول سفارش
           </v-chip>
         </template>
@@ -45,6 +48,8 @@ import axiosInstance from '~/utils/axiosinstance.js'
 definePageMeta({
   layout: 'panel',
 })
+
+const { $swal } = useNuxtApp()
 
 const items = ref([])
 
@@ -72,18 +77,42 @@ const fetchOrderList = async () => {
     console.error('Error fetching order list:', e)
   }
 }
+const orderAccepted = async (id) => {
+  try {
+    $swal.fire({
+      title: "آیا از قبول سفارش انتخاب شده اطمینان دارید؟",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#8FD14F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "قبول سفارش",
+      cancelButtonText: "لغو",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Post the request ID to the new endpoint
+          const response = await axiosInstance.post('/courier/orders/', { order_request_id: id })
+          console.log('Order accepted:', response)
 
-// Status class handler
-const getStatusClass = (status) => {
-  switch (status.toLowerCase()) {
-    case 'pending':
-      return 'text-blue'
-    case 'accepted':
-      return 'text-green'
-    case 'declined':
-      return 'text-red'
-    default:
-      return ''
+          $swal.fire({
+            title: "سفارش از سمت شما قبول شد",
+            text: "برای نمایش اطلاعات دقیقتر به صفحه سفارشات مراجعه کنید",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } catch (error) {
+          console.error('Error accepting order:', error)
+          $swal.fire({
+            title: "خطا در پذیرش سفارش",
+            text: "لطفاً دوباره تلاش کنید",
+            icon: "error",
+          })
+        }
+      }
+    })
+  } catch (e) {
+    console.error('Error in SweetAlert:', e)
   }
 }
 
@@ -91,6 +120,7 @@ const getStatusClass = (status) => {
 onMounted(() => {
   fetchOrderList()
 })
+
 </script>
 
 <style lang="scss" scoped>
