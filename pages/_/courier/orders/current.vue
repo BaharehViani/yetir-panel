@@ -61,6 +61,7 @@ const headers = ref([
   // { title: 'توضیحات', key: 'description' },
   { title: 'وزن', key: 'weight' },
   { title: 'هزینه ارسال', key: 'cost' },
+  { title: 'وضعیت', key: 'status' },
   // { title: 'پذیرش سفارش', key: 'accept' },
 ])
 
@@ -68,7 +69,8 @@ const headers = ref([
 const fetchOrderList = async () => {
   try {
     const response = await axiosInstance.get('/courier/orders/active')
-    items.value = response.data
+    items.value = [response.data]
+
     console.log(response) // Update the table data with the fetched response
 
   } catch (e) {

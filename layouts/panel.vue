@@ -82,6 +82,7 @@
 import Avatar from '../assets/images/avatar.svg'
 import { useUserStore } from '~/store/userStore.js'
 
+
 const userStore = useUserStore()
 
 const UserName =
@@ -101,6 +102,13 @@ const menuItems = computed(
   () =>
     ({
       customer: [
+        {
+          link: '/_/profile',
+          label: 'ویرایش پروفایل',
+          icon: 'mdi-view-dashboard',
+          iconClass: '',
+          class: 'bg-[#4800FF]',
+        },
         {
           link: '/_',
           label: 'داشبورد',
