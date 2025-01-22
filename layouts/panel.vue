@@ -131,7 +131,7 @@ const menuItems = computed(
           class: 'bg-[#4880FF]',
         },
         {
-          link: '/invoice',
+          link: '/_/customer/invoices/invoice',
           label: 'فاکتور و پرداخت ها',
           icon: 'mdi-view-dashboard',
           iconClass: '',
