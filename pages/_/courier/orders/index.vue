@@ -72,7 +72,7 @@ const headers = ref([
 // Fetch order list
 const fetchOrderList = async () => {
   try {
-    const response = await axiosInstance.get('/customer/orders')
+    const response = await axiosInstance.get('/courier/orders')
     items.value = response.data
     console.log(response) // Update the table data with the fetched response
   } catch (e) {

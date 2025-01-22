@@ -13,74 +13,79 @@
       </div>
       <v-divider color="blue"></v-divider>
       <div>
-        <v-form class="flex-column mt-8">
+        <v-form class="flex-column mt-8" @submit.prevent="profileInfoHandler">
          <v-row>
            <v-col
              cols="10"
              sm="6"
            >
              <div class="font-sm font-medium mb-2">نام :</div>
-             <v-textarea
+             <v-text-field
                prepend-inner-icon="mdi-rename"
-               :placeholder="items.first_name"
+               v-model="newProfileRequestForm.first_name"
                row-height="10"
                rows="1"
                rounded="lg"
                variant="outlined"
                auto-grow
-             ></v-textarea>
+             ></v-text-field>
            </v-col>
            <v-col
              cols="12"
              sm="6"
            >
              <div class="font-sm font-medium mb-2">نام خانوادگی :</div>
-             <v-textarea
+             <v-text-field
                prepend-inner-icon="mdi-rename"
-               :placeholder="items.last_name"
+               v-model="newProfileRequestForm.last_name"
                row-height="10"
                rows="1"
                rounded="lg"
                variant="outlined"
                auto-grow
-             ></v-textarea>
+             ></v-text-field>
            </v-col>
            <v-col
              cols="10"
              sm="6"
            >
              <div class="font-sm font-medium mb-2">موبایل :</div>
-             <v-textarea
+             <v-text-field
                prepend-inner-icon="mdi-cellphone"
-               :placeholder="items.phone"
+               v-model="newProfileRequestForm.phone"
                row-height="10"
                rows="1"
                rounded="lg"
                variant="outlined"
                auto-grow
                shaped
-             ></v-textarea>
+             ></v-text-field>
            </v-col>
            <v-col
              cols="10"
              sm="6"
            >
              <div class="font-sm font-medium mb-2">کد ملی :</div>
-             <v-textarea
-               prepend-inner-icon="mdi-card-account-details"
-               :placeholder="items.national_code"
-               row-height="10"
-               rows="1"
-               rounded="lg"
-               variant="outlined"
-               margin
-               auto-grow
-               shaped
-             ></v-textarea>
+             <div class="cursor-not-allowed">
+               <v-text-field
+                 prepend-inner-icon="mdi-card-account-details"
+                 v-model="newProfileRequestForm.national_code"
+                 row-height="10"
+                 rows="1"
+                 rounded="lg"
+                 variant="outlined"
+                 margin
+                 auto-grow
+                 shaped
+                 readonly
+                 class="pointer-events-none"
+               ></v-text-field>
+             </div>
            </v-col>
-           <div class="flex justify-end">
+
+           <div class="flex justify-end w-full">
              <v-btn
-               class="font-sm font-medium"
+               class="font-sm ml-3.5 font-medium"
                size="large"
                type="submit"
                color="blue"
@@ -103,39 +108,71 @@
 import ProfileBg from 'assets/images/ProfileBackground.png'
 import User1 from 'assets/images/user1.png'
 import axiosInstance from '~/utils/axiosinstance.js'
+import { useUserStore } from '~/store/userStore.js'
 
 definePageMeta({
   layout: 'panel',
 })
-const { $swal } = useNuxtApp()
 
-const items = ref({
-  first_name: '',
-  last_name: '',
-  phone: '',
-  national_code: '',
+
+
+const userStore = useUserStore()
+
+const UserInfo = ref({
+  first_name: userStore.userData.first_name,
+  last_name: userStore.userData.last_name,
+  phone: userStore.userData.phone,
+  national_code: userStore.userData.national_code,
 })
 
-// Table headers
-// const info = ref([
-//   { title: 'نام', key: 'first_name' },
-//   { title: 'نام خانوادگی', key: 'last_name' },
-//   { title: 'کد ملی', key: 'national_code' },
-//   { title: 'شماره موبایل', key: 'phone' },
-// ])
 
-// Fetch order list
-const fetchProfileInfo = async () => {
+
+const { $swal } = useNuxtApp()
+
+// const items = ref({
+//   first_name: '',
+//   last_name: '',
+//   phone: '',
+//   national_code: '',
+// })
+
+const newProfileRequestForm = ref({
+  first_name: null,
+  last_name: null,
+  phone: null,
+  national_code: null,
+})
+
+const profileInfoHandler = async () => {
   try {
-    const response = await axiosInstance.get('x-user/')
-    items.value = response.data
-    console.log(response) // Update the table data with the fetched response
+    const response = await axiosInstance.patch('x-user/', newProfileRequestForm.value)
+    console.log(response)
+
+    $swal.fire({
+      icon: "success",
+      title: "تغییرات شما با موفقیت ثبت شد",
+      draggable: true,
+      position: 'center',
+      timer: 2000,
+      showConfirmButton: false,
+    })
+
   } catch (e) {
-    console.error('Error fetching profile info:', e)
+    console.log(e)
+
+    $swal.fire({
+      icon: "error",
+      title: "مشکل در ثبت تغییرات",
+      draggable: true,
+      position: 'center',
+      timer: 2000,
+      showConfirmButton: false,
+    })
   }
 }
+
 onMounted(() => {
-  fetchProfileInfo()
+  newProfileRequestForm.value = { ...userStore.userData };
 })
 
 </script>

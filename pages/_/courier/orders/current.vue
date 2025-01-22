@@ -34,6 +34,12 @@
           >
             {{ item.status }}
           </v-chip>
+          <v-select
+          chips
+          :items="getStatusClass(item.status)"
+          variant="outlined"
+          rounded="xl"
+          ></v-select>
         </template>
       </v-data-table>
     </div>

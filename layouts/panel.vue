@@ -13,7 +13,7 @@
 
           <div id="menu-item" class="py-10 flex-grow-1 pt-0">
             <div class="px-4">
-              <nuxt-link class="rounded p-3 flex items-center mb-2">
+              <nuxt-link to="/_/profile" class="rounded p-3 flex items-center mb-2">
                 <v-avatar>
                   <v-img :src="Avatar" alt="avatar" />
                 </v-avatar>
@@ -103,13 +103,6 @@ const menuItems = computed(
     ({
       customer: [
         {
-          link: '/_/profile',
-          label: 'ویرایش پروفایل',
-          icon: 'mdi-view-dashboard',
-          iconClass: '',
-          class: 'bg-[#4800FF]',
-        },
-        {
           link: '/_',
           label: 'داشبورد',
           icon: 'mdi-view-dashboard',
@@ -134,6 +127,13 @@ const menuItems = computed(
           link: '/_/customer/orders/new',
           label: 'ایجاد درخواست جدید',
           icon: 'mdi-plus-box-outline',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/invoice',
+          label: 'فاکتور و پرداخت ها',
+          icon: 'mdi-view-dashboard',
           iconClass: '',
           class: 'bg-[#4880FF]',
         },
