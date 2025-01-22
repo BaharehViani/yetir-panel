@@ -13,19 +13,16 @@
       </div>
       <v-divider color="blue"></v-divider>
       <div>
-        <v-form class="flex-column pr-6 mt-8">
+        <v-form class="flex-column mt-8">
          <v-row>
            <v-col
              cols="10"
              sm="6"
-             v-for="(item, index) in info"
-             :key="index"
            >
              <div class="font-sm font-medium mb-2">نام :</div>
              <v-textarea
-               v-model="items[item.first_name]"
-               prepend-inner-icon="mdi-map-marker-outline"
-               :placeholder="item.title"
+               prepend-inner-icon="mdi-rename"
+               :placeholder="items.first_name"
                row-height="10"
                rows="1"
                rounded="lg"
@@ -39,9 +36,8 @@
            >
              <div class="font-sm font-medium mb-2">نام خانوادگی :</div>
              <v-textarea
-               v-model="items[item.last_name]"
-               prepend-inner-icon="mdi-map-marker"
-               :placeholder="item.title"
+               prepend-inner-icon="mdi-rename"
+               :placeholder="items.last_name"
                row-height="10"
                rows="1"
                rounded="lg"
@@ -55,9 +51,8 @@
            >
              <div class="font-sm font-medium mb-2">موبایل :</div>
              <v-textarea
-               v-model="items[item.phone]"
-               prepend-inner-icon="mdi-scale"
-               :placeholder="item.title"
+               prepend-inner-icon="mdi-cellphone"
+               :placeholder="items.phone"
                row-height="10"
                rows="1"
                rounded="lg"
@@ -72,13 +67,13 @@
            >
              <div class="font-sm font-medium mb-2">کد ملی :</div>
              <v-textarea
-               v-model="items[item.national_code]"
-               prepend-inner-icon="mdi-scale"
-               :placeholder="item.title"
+               prepend-inner-icon="mdi-card-account-details"
+               :placeholder="items.national_code"
                row-height="10"
                rows="1"
                rounded="lg"
                variant="outlined"
+               margin
                auto-grow
                shaped
              ></v-textarea>
@@ -122,12 +117,12 @@ const items = ref({
 })
 
 // Table headers
-const info = ref([
-  { title: 'نام', key: 'first_name' },
-  { title: 'نام خانوادگی', key: 'last_name' },
-  { title: 'کد ملی', key: 'national_code' },
-  { title: 'شماره موبایل', key: 'phone' },
-])
+// const info = ref([
+//   { title: 'نام', key: 'first_name' },
+//   { title: 'نام خانوادگی', key: 'last_name' },
+//   { title: 'کد ملی', key: 'national_code' },
+//   { title: 'شماره موبایل', key: 'phone' },
+// ])
 
 // Fetch order list
 const fetchProfileInfo = async () => {
