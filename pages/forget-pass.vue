@@ -2,12 +2,12 @@
   <div>
     <v-card class="py-5 px-8 flex-col" :rounded="false" flat>
       <v-card-title class="text-center text-gray-900 text-2xl font-bold"
-        >ورود به حساب کاربری
+      >بازیابی رمز عبور
       </v-card-title>
       <v-card-subtitle
         class="text-center text-gray-600 text-lg font-semibold pb-8"
       >
-        برای ورود شماره تلفن همراه خود را به همراه رمز عبور وارد کنید.
+        برای بازیابی رمز عبور شماره تلفن همراه خود را وارد کنید.
       </v-card-subtitle>
       <v-form class="mt-4" fast-fail @submit.prevent="loginFormLogInHandler">
         <v-text-field
@@ -24,27 +24,6 @@
               : null
           "
         ></v-text-field>
-        <v-text-field
-          v-model="loginForm.password"
-          label="رمز عبور"
-          :type="showPassword ? 'text' : 'password'"
-          outlined
-          dense
-          append-inner-icon="mdi-eye"
-          @click:append-inner="showPassword = !showPassword"
-          @blur="loginFormValidations.password.$touch"
-          :error-messages="
-            loginFormValidations.password.$error
-              ? loginFormValidations.password.$errors[0].$message
-              : null
-          "
-        ></v-text-field>
-        <nuxt-link
-          to="/forget-pass"
-          class="text-start text-gray-600 text-md font-medium pb-9"
-        >
-          رمز خود را فراموش کرده‌اید؟
-        </nuxt-link>
         <v-divider class="my-4"></v-divider>
         <v-btn
           block
@@ -65,7 +44,7 @@
           <nuxt-link
             to="/sign-up"
             class="pr-3 text-right font-semibold underline text-primary"
-            >همین الان ثبت‌نام کنید
+          >همین الان ثبت‌نام کنید
           </nuxt-link>
         </div>
       </v-form>

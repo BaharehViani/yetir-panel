@@ -77,6 +77,13 @@
               placeholder="۱۳۶۳۴۴۳۴۳۴"
               outlined
               dense
+              class="mb-2"
+              @blur="signUpFormValidations.nationalCode.$touch"
+              :error-messages="
+                signUpFormValidations.nationalCode.$error
+                  ? signUpFormValidations.nationalCode.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.phone"
@@ -85,6 +92,12 @@
               placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
               outlined
               dense
+              @blur="signUpFormValidations.phone.$touch"
+              :error-messages="
+                signUpFormValidations.phone.$error
+                  ? signUpFormValidations.phone.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
@@ -128,6 +141,12 @@
               placeholder="۱۳۶۳۴۴۳۴۳۴"
               outlined
               dense
+              @blur="signUpFormValidations.nationalCode.$touch"
+              :error-messages="
+                signUpFormValidations.nationalCode.$error
+                  ? signUpFormValidations.nationalCode.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.phone"
@@ -136,6 +155,12 @@
               placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
               outlined
               dense
+              @blur="signUpFormValidations.phone.$touch"
+              :error-messages="
+                signUpFormValidations.phone.$error
+                  ? signUpFormValidations.phone.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
@@ -148,6 +173,8 @@
                   size="x-large"
                   type="submit"
                   class="font-weight-bold"
+                  :loading="signUpStepLoading"
+                  :disabled="signUpStepLoading || signUpStepLoading.$invalid"
                 >
                   ثـبـت
                 </v-btn>
@@ -183,22 +210,41 @@
               placeholder="فاطمه"
               outlined
               dense
+              @blur="signUpFormValidations.firstName.$touch"
+              :error-messages="
+                signUpFormValidations.firstName.$error
+                  ? signUpFormValidations.firstName.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.lastName"
               label="نام خانوادگی"
               dir="rtl"
-              type="firstName"
+              type="lastName"
               placeholder="علیمرادی"
               outlined
               dense
+              @blur="signUpFormValidations.lastName.$touch"
+              :error-messages="
+                signUpFormValidations.lastName.$error
+                  ? signUpFormValidations.lastName.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.maxCapacity"
               label="ظرفیت بار"
+              type="capacity"
               placeholder="۱۰ کیلوگرم"
               outlined
               dense
+              @blur="signUpFormValidations.maxCapacity.$touch"
+              :error-messages="
+                signUpFormValidations.maxCapacity.$error
+                  ? signUpFormValidations.maxCapacity.$errors[0].$message
+                  : null
+              "
             >
             </v-text-field>
             <v-text-field
@@ -374,6 +420,8 @@
 import axiosInstance from '~/utils/axiosinstance.js'
 import Cookies from 'js-cookie'
 import PlateNumberInput from '~/components/inputs/PlateNumberInput.vue'
+import { useVuelidate } from '@vuelidate/core'
+import { required, maxLength, minLength } from '@vuelidate/validators'
 
 definePageMeta({
   layout: 'sign-up-steps',
@@ -402,7 +450,44 @@ const signUpForm = ref({
 
 const showPassword = ref(false)
 
+const signUpFormValidations = useVuelidate(
+  {
+    phone: {
+      required,
+      minLength: minLength(11),
+      maxLength: maxLength(11),
+    },
+    password: {
+      required,
+      minLength: minLength(8),
+    },
+    nationalCode: {
+      required,
+      minLength: minLength(6),
+    },
+    firstName: {
+      required,
+    },
+    lastName: {
+      required,
+    },
+    maxCapacity: {
+      required,
+    },
+  },
+  signUpForm.value,
+)
+
+//const signUpStepLoading = computed()
+const signUpLoading = ref(false)
+
 const signUpFormHandler = async () => {
+  if (signUpFormValidations.value.$invalid) {
+    signUpFormValidations.value.$touch()
+    return
+  }
+  signUpLoading.value = true
+
   try {
     const response = await axiosinstance.post('/users/register', {
       phone: signUpForm.value.phone,
