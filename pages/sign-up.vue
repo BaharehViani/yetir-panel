@@ -8,7 +8,7 @@
         size="small"
         v-if="step > 1"
       >
-        برگشت
+        بازگشت
       </v-btn>
     </div>
     <v-divider class="my-4"></v-divider>
