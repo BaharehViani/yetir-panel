@@ -1,0 +1,9 @@
+services:
+  yetir-client:
+    container_name: yetir-client
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nuxt
+    ports:
+      - "23010:3000"
