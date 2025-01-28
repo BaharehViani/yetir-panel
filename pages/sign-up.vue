@@ -141,12 +141,6 @@
               placeholder="۱۳۶۳۴۴۳۴۳۴"
               outlined
               dense
-              @blur="signUpFormValidations.nationalCode.$touch"
-              :error-messages="
-                signUpFormValidations.nationalCode.$error
-                  ? signUpFormValidations.nationalCode.$errors[0].$message
-                  : null
-              "
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.phone"
@@ -155,12 +149,6 @@
               placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
               outlined
               dense
-              @blur="signUpFormValidations.phone.$touch"
-              :error-messages="
-                signUpFormValidations.phone.$error
-                  ? signUpFormValidations.phone.$errors[0].$message
-                  : null
-              "
             ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
@@ -173,8 +161,6 @@
                   size="x-large"
                   type="submit"
                   class="font-weight-bold"
-                  :loading="signUpStepLoading"
-                  :disabled="signUpStepLoading || signUpStepLoading.$invalid"
                 >
                   ثـبـت
                 </v-btn>
@@ -257,7 +243,7 @@
               @click:append-inner="showPassword = !showPassword"
             ></v-text-field>
             <v-text-field
-              v-model="signUpForm.password"
+              v-model="signUpForm.checkPassword"
               label="تکرار رمز عبور"
               :type="showPassword ? 'text' : 'password'"
               outlined
@@ -342,13 +328,18 @@
               @click:append-inner="showPassword = !showPassword"
             ></v-text-field>
             <v-text-field
-              v-model="signUpForm.password"
+              v-model="signUpForm.checkPassword"
               label="تکرار رمز عبور"
               :type="showPassword ? 'text' : 'password'"
               outlined
               dense
               append-inner-icon="mdi-eye"
               @click:append-inner="showPassword = !showPassword"
+              :error-messages="
+                signUpFormValidations.checkPassword.$error
+                  ? signUpFormValidations.checkPassword.$errors[0].$message
+                  : null
+              "
             ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
@@ -421,7 +412,7 @@ import axiosInstance from '~/utils/axiosinstance.js'
 import Cookies from 'js-cookie'
 import PlateNumberInput from '~/components/inputs/PlateNumberInput.vue'
 import { useVuelidate } from '@vuelidate/core'
-import { required, maxLength, minLength } from '@vuelidate/validators'
+import { required, maxLength, minLength, sameAs } from '@vuelidate/validators'
 
 definePageMeta({
   layout: 'sign-up-steps',
@@ -438,6 +429,7 @@ const selectUserTypeAndProceed = (type) => {
 const signUpForm = ref({
   phone: null,
   password: null,
+  checkPassword: null,
   firstName: null,
   lastName: null,
   plateNum: null,
@@ -461,6 +453,10 @@ const signUpFormValidations = useVuelidate(
       required,
       minLength: minLength(8),
     },
+    checkPassword: {
+      required,
+      sameAsRef: sameAs(signUpForm.value.password),
+    },
     nationalCode: {
       required,
       minLength: minLength(6),
@@ -479,14 +475,14 @@ const signUpFormValidations = useVuelidate(
 )
 
 //const signUpStepLoading = computed()
-const signUpLoading = ref(false)
+//const signUpLoading = ref(false)
 
 const signUpFormHandler = async () => {
-  if (signUpFormValidations.value.$invalid) {
-    signUpFormValidations.value.$touch()
-    return
-  }
-  signUpLoading.value = true
+  // if (signUpFormValidations.value.$invalid) {
+  //   signUpFormValidations.value.$touch()
+  //   return
+  // }
+  // signUpLoading.value = true
 
   try {
     const response = await axiosinstance.post('/users/register', {
@@ -539,15 +535,6 @@ const signUpFormHandler = async () => {
       return
     }
   }
-
-  // try {
-  //   const response = await axiosInstance.post('/users/authenticate', loginForm.value)
-  //   console.log(response)
-  //   Cookies.set('auth_token', response.data.payload.token)
-  //   axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.payload.token
-  // } catch (e) {
-  //   console.log(e)
-  // }
 
   navigateTo('/')
 }
