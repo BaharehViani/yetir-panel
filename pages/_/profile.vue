@@ -114,8 +114,6 @@ definePageMeta({
   layout: 'panel',
 })
 
-
-
 const userStore = useUserStore()
 
 const UserInfo = ref({
@@ -125,16 +123,9 @@ const UserInfo = ref({
   national_code: userStore.userData.national_code,
 })
 
-
-
+// sweatalert2 for pop-up handling options
 const { $swal } = useNuxtApp()
 
-// const items = ref({
-//   first_name: '',
-//   last_name: '',
-//   phone: '',
-//   national_code: '',
-// })
 
 const newProfileRequestForm = ref({
   first_name: null,
@@ -143,6 +134,7 @@ const newProfileRequestForm = ref({
   national_code: null,
 })
 
+// Update profile information
 const profileInfoHandler = async () => {
   try {
     const response = await axiosInstance.patch('x-user/', newProfileRequestForm.value)
@@ -171,6 +163,7 @@ const profileInfoHandler = async () => {
   }
 }
 
+// Reading the profile information right from the userStore
 onMounted(() => {
   newProfileRequestForm.value = { ...userStore.userData };
 })

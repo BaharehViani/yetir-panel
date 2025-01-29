@@ -2,6 +2,7 @@
   <div>
     <v-card class="py-5 px-8 flex-col" :rounded="false" flat>
       <div>
+        <!-- Data Table displaying the order information -->
         <v-data-table
           :headers="headers"
           :items="items"
@@ -39,8 +40,7 @@
         </v-data-table>
       </div>
       <v-divider class="my-8"></v-divider>
-      <v-row class="text-center">
-      </v-row>
+      <v-row class="text-center"></v-row>
     </v-card>
   </div>
 </template>
@@ -48,8 +48,10 @@
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
 import { formatPrice } from '../../../../utils/numbers.js'
+
 const items = ref([])
 
+// Column headers for the data table
 const headers = ref([
   { title: 'شماره سفارش', key: 'code' },
   { title: 'فی قیمت', key: 'total' },
@@ -59,6 +61,7 @@ const headers = ref([
   { title: 'عملیات', key: 'actions' },
 ])
 
+// Fetch the order list from API
 const fetchOrderList = async () => {
   try {
     const response = await axiosInstance.get('/customer/invoices/all')
@@ -69,6 +72,7 @@ const fetchOrderList = async () => {
   }
 }
 
+// Update the order status (for example, to mark as paid)
 const update = async (item) => {
   try {
     const response = await axiosInstance.patch(`/customer/invoices/${item.id}`)
@@ -78,6 +82,7 @@ const update = async (item) => {
   }
 }
 
+// Helper function to determine the class based on the order status
 const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
     case 'pending':
@@ -108,6 +113,7 @@ onMounted(() => {
   fetchOrderList()
 })
 
+// Define page meta for this layout
 definePageMeta({
   layout: 'panel',
 })

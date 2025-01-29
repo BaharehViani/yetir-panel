@@ -100,6 +100,7 @@ definePageMeta({
 
 const { $swal } = useNuxtApp()
 
+// New order form values
 const newOrderRequestForm = ref({
   type: null,
   description: null,
@@ -108,6 +109,7 @@ const newOrderRequestForm = ref({
   weight: null,
 })
 
+// Posting new order created by user
 const orderRequestFormSubmitHandler = async () => {
   try {
     const response = await axiosInstance.post('/customer/order-requests', newOrderRequestForm.value)

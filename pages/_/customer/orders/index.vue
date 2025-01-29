@@ -74,7 +74,7 @@ const fetchOrderList = async () => {
   try {
     const response = await axiosInstance.get('/customer/orders')
     items.value = response.data
-    console.log(response) // Update the table data with the fetched response
+    console.log(response)
   } catch (e) {
     console.error('Error fetching order list:', e)
   }

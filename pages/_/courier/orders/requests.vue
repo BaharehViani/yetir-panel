@@ -1,6 +1,7 @@
 <template>
   <div  class="p-0">
     <div v-if="items.length > 0">
+<!--      Data table setting-->
       <v-data-table
         :headers="headers"
         :items="items"
@@ -71,7 +72,7 @@ const fetchOrderList = async () => {
   try {
     const response = await axiosInstance.get('/courier/order-requests/')
     items.value = response.data
-    console.log(response) // Update the table data with the fetched response
+    console.log(response)
 
   } catch (e) {
     console.error('Error fetching order list:', e)

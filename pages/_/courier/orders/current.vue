@@ -70,11 +70,10 @@ const headers = ref([
   { title: 'تاریخ ثبت', key: 'updated-at' },
   { title: 'مبدا', key: 'pickup_location' },
   { title: 'مقصد', key: 'dropOff_location' },
-  // { title: 'توضیحات', key: 'description' },
   { title: 'وزن', key: 'weight' },
   { title: 'هزینه ارسال', key: 'cost' },
   { title: 'وضعیت', key: 'status' },
-  // { title: 'پذیرش سفارش', key: 'accept' },
+
 ])
 const statusOptions = ref([
   { title: 'در انتظار دریافت', key: 'waiting_for_pickup' },
@@ -89,7 +88,7 @@ const fetchOrderList = async () => {
     const response = await axiosInstance.get('/courier/orders/active')
     items.value = [response.data]
 
-    console.log(response) // Update the table data with the fetched response
+    console.log(response)
   } catch (e) {
     console.error('Error fetching order list:', e)
   }
