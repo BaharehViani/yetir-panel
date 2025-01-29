@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Back Button for Step Navigation -->
     <div class="pt-4 px-4">
       <v-btn
         variant="text"
@@ -11,9 +12,11 @@
         بازگشت
       </v-btn>
     </div>
+
     <v-divider class="my-4"></v-divider>
+
+    <!-- Step 1: User Type Selection -->
     <div v-if="step === 1">
-      <!-------------------------------------------------------------------   step 1 is here!   ----------------------------->
       <div
         id="step 1"
         class="text-center text-gray-900 text-[25px] font-weight-bold"
@@ -22,6 +25,8 @@
       </div>
 
       <v-divider class="my-4"></v-divider>
+
+      <!-- Selection Buttons -->
       <div class="flex flex-col items-center">
         <div class="w-2/3">
           <v-btn
@@ -38,8 +43,8 @@
           </v-btn>
 
           <v-divider class="my-2"></v-divider>
+
           <v-btn
-            to=""
             color="secondary"
             rounded="lg"
             block
@@ -54,6 +59,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Step 2: User Information Form -->
     <div v-if="step === 2">
       <!--Courier-->
       <div v-if="userType === 'courier'">
@@ -67,7 +74,10 @@
         <div class="text-center text-gray-600 text-[15px] font-weight-medium">
           اطلاعات زیر را تکمیل کنید تا حساب کاربری شما را ایجاد کنیم
         </div>
+
         <v-divider class="my-5"></v-divider>
+
+        <!-- Courier Registration Form -->
         <div class="flex justify-center mt-4">
           <v-form class="w-2/3" @submit.prevent="step++">
             <v-text-field
@@ -118,9 +128,8 @@
           </v-form>
         </div>
       </div>
-      <!--Courier-->
 
-      <!--Customer-->
+      <!-- If user is a customer -->
       <div
         v-if="userType === 'customer'"
         class="text-center text-gray-900 text-[25px] font-weight-bold"
@@ -130,8 +139,10 @@
         <div class="text-center text-gray-600 text-[15px] font-weight-medium">
           اطلاعات زیر را تکمیل کنید تا حساب کاربری شما را ایجاد کنیم
         </div>
+
         <v-divider class="my-5"></v-divider>
 
+        <!-- Customer Registration Form -->
         <div class="flex justify-center mt-4">
           <v-form class="w-2/3" @submit.prevent="step++">
             <v-text-field
@@ -152,6 +163,7 @@
             ></v-text-field>
 
             <v-divider class="my-2"></v-divider>
+
             <div class="flex flex-col items-center">
               <div class="w-2/3">
                 <v-btn
@@ -169,10 +181,9 @@
           </v-form>
         </div>
       </div>
-      <!--Customer-->
     </div>
 
-    <!--Courier-->
+    <!-- Step 3: Additional Information -->
     <div v-if="step === 3">
       <!--Courier-->
       <div
@@ -185,7 +196,10 @@
         <div class="text-center text-gray-600 text-[15px] font-weight-medium">
           اطلاعات زیر را تکمیل کنید تا حساب کاربری شما را ایجاد کنیم
         </div>
+
         <v-divider class="my-3"></v-divider>
+
+        <!-- Additional Info Form for Courier -->
         <div class="flex justify-center mt-4">
           <v-form class="w-2/3" @submit.prevent="step++">
             <v-text-field
@@ -284,9 +298,8 @@
           </v-form>
         </div>
       </div>
-      <!--Courier-->
 
-      <!--Customer-->
+      <!-- If user is a customer -->
       <div
         v-if="userType === 'customer'"
         class="text-center text-gray-900 text-[25px] font-weight-bold"
@@ -299,6 +312,8 @@
         </div>
 
         <v-divider class="my-3"></v-divider>
+
+        <!-- Additional Info Form for Customer-->
         <div class="flex justify-center mt-4">
           <v-form class="w-2/3" @submit.prevent="signUpFormHandler">
             <v-text-field
@@ -358,9 +373,9 @@
           </v-form>
         </div>
       </div>
-      <!--Customer-->
     </div>
 
+    <!-- Step 4: Vehicle Information -->
     <div v-if="step === 4">
       <div
         v-if="userType === 'courier'"
@@ -394,7 +409,10 @@
         </div>
       </div>
     </div>
+
     <v-divider class="my-4"></v-divider>
+
+    <!-- Login Redirect -->
     <div class="text-center">
       <span>حساب کاربری دارید؟</span>
       <nuxt-link
@@ -414,18 +432,20 @@ import PlateNumberInput from '~/components/inputs/PlateNumberInput.vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength, minLength, sameAs } from '@vuelidate/validators'
 
-definePageMeta({
-  layout: 'sign-up-steps',
-})
-
+// Reactive variables for step navigation and user type selection
 const step = ref(1)
 const userType = ref(null)
 
+// Toggle for password visibility
+const showPassword = ref(false)
+
+// Function to select user type and proceed to the next step
 const selectUserTypeAndProceed = (type) => {
   userType.value = type
   step.value++
 }
 
+// Form data object
 const signUpForm = ref({
   phone: null,
   password: null,
@@ -440,8 +460,7 @@ const signUpForm = ref({
   info: null,
 })
 
-const showPassword = ref(false)
-
+// Form validation rules
 const signUpFormValidations = useVuelidate(
   {
     phone: {
@@ -474,17 +493,10 @@ const signUpFormValidations = useVuelidate(
   signUpForm.value,
 )
 
-//const signUpStepLoading = computed()
-//const signUpLoading = ref(false)
-
+// Function to handle user signup process
 const signUpFormHandler = async () => {
-  // if (signUpFormValidations.value.$invalid) {
-  //   signUpFormValidations.value.$touch()
-  //   return
-  // }
-  // signUpLoading.value = true
-
   try {
+    // Register the user
     const response = await axiosinstance.post('/users/register', {
       phone: signUpForm.value.phone,
       password: signUpForm.value.password,
@@ -500,10 +512,12 @@ const signUpFormHandler = async () => {
   }
 
   try {
+    // Authenticate the user
     const response = await axiosInstance.post('/users/authenticate', {
       phone: signUpForm.value.phone,
       password: signUpForm.value.password,
     })
+    // Store authentication token in cookies
     Cookies.set('auth_token', response.data.payload.token)
     axiosInstance.defaults.headers.common['Authorization'] =
       'Bearer ' + response.data.payload.token
@@ -511,9 +525,9 @@ const signUpFormHandler = async () => {
     console.log(e)
   }
 
+  // If the user is a courier, register their vehicle details
   if (userType.value === 'courier') {
     try {
-      //const response = await axiosInstance.post('/users/authenticate', loginForm.value)
       const response = await axiosinstance.post('/courier/vehicles', {
         type: signUpForm.value.vehicle,
         plate_number: signUpForm.value.plateNum,
@@ -526,6 +540,7 @@ const signUpFormHandler = async () => {
     }
 
     try {
+      // Upload profile image URL for courier
       const response = await axiosinstance.patch('/courier/info', {
         photo_url: signUpForm.value.image,
       })
@@ -536,6 +551,12 @@ const signUpFormHandler = async () => {
     }
   }
 
+  // Redirect the user to the login page after successful registration
   navigateTo('/login')
+
+  // Define page layout
+  definePageMeta({
+    layout: 'sign-up-steps',
+  })
 }
 </script>

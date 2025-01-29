@@ -1,15 +1,18 @@
 <template>
   <div>
     <v-card class="py-5 px-8 flex-col" :rounded="false" flat>
-      <v-card-title class="text-center text-gray-900 text-2xl font-bold"
-        >ورود به حساب کاربری
+      <v-card-title class="text-center text-gray-900 text-2xl font-bold">
+        ورود به حساب کاربری
       </v-card-title>
       <v-card-subtitle
         class="text-center text-gray-600 text-lg font-semibold pb-8"
       >
         برای ورود شماره تلفن همراه خود را به همراه گذرواژه وارد کنید.
       </v-card-subtitle>
+
+      <!-- Login Form -->
       <v-form class="mt-4" fast-fail @submit.prevent="loginFormLogInHandler">
+        <!-- Phone Number Input -->
         <v-text-field
           v-model="loginForm.phone"
           label="شماره موبایل"
@@ -24,6 +27,8 @@
               : null
           "
         ></v-text-field>
+
+        <!-- Password Input with Toggle Visibility -->
         <v-text-field
           v-model="loginForm.password"
           label="رمز عبور"
@@ -39,13 +44,18 @@
               : null
           "
         ></v-text-field>
+
+        <!-- Forgot Password Link -->
         <nuxt-link
           to="/forget-pass"
           class="text-start text-gray-600 text-md font-medium pb-9"
         >
           رمز خود را فراموش کرده‌اید؟
         </nuxt-link>
+
         <v-divider class="my-4"></v-divider>
+
+        <!-- Login Button -->
         <v-btn
           block
           color="primary"
@@ -60,12 +70,14 @@
 
         <v-divider class="my-4"></v-divider>
 
+        <!-- Sign Up Link -->
         <div class="text-center">
           <span>حساب کاربری ندارید؟</span>
           <nuxt-link
             to="/sign-up"
             class="pr-3 text-right font-semibold underline text-primary"
-            >همین الان ثبت‌نام کنید
+          >
+            همین الان ثبت‌نام کنید
           </nuxt-link>
         </div>
       </v-form>
@@ -79,39 +91,36 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength, minLength } from '@vuelidate/validators'
 import Cookies from 'js-cookie'
 import { useUserStore } from '../store/userStore'
-
-function clear() {
-  v$.value.$reset()
-
-  for (const [key, value] of Object.entries(initialState)) {
-    state[key] = value
-  }
-}
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 
+// Reactive state for login form fields
 const loginForm = ref({
   phone: null,
   password: null,
 })
 
+// Validation rules
 const loginFormValidations = useVuelidate(
   {
-    phone: {
-      required,
-      minLength: minLength(11),
-      maxLength: maxLength(11),
-    },
-    password: {
-      required,
-      minLength: minLength(8),
-    },
+    phone: { required, minLength: minLength(11), maxLength: maxLength(11) },
+    password: { required, minLength: minLength(8) },
   },
-  loginForm.value,
+  loginForm,
 )
 
-const loginLoading = ref(false)
+const loginLoading = ref(false) // Loading state for login
+const showPassword = ref(false) // Toggle visibility for password field
 
+// Function to clear form inputs
+function clear() {
+  loginFormValidations.value.$reset()
+  loginForm.value.phone = null
+  loginForm.value.password = null
+}
+
+// Login handler function
 const loginFormLogInHandler = async () => {
   if (loginFormValidations.value.$invalid) {
     loginFormValidations.value.$touch()
@@ -126,20 +135,21 @@ const loginFormLogInHandler = async () => {
       loginForm.value,
     )
     console.log(response)
+
+    // Save authentication token
     Cookies.set('auth_token', response.data.payload.token)
     axiosInstance.defaults.headers.common['Authorization'] =
       'Bearer ' + response.data.payload.token
-  } catch (e) {
-    console.log(e)
+
+    navigateTo('/') // Redirect after successful login
+  } catch (error) {
+    console.error('Login failed:', error)
   } finally {
     loginLoading.value = false
   }
-
-  navigateTo('/')
 }
 
-const showPassword = ref(false)
-
+// Set page meta properties
 definePageMeta({
   layout: 'form',
 })
