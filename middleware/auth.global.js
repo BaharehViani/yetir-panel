@@ -5,7 +5,7 @@ import { useUserStore } from '~/store/userStore.js'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   // Define paths that should not trigger authentication checks
-  const ignoredPath = ['/login', '/sign-up']
+  const ignoredPath = ['/login', '/sign-up','/']
 
   // Skip middleware for ignored paths (login and sign-up pages)
   for (const path of ignoredPath) {
