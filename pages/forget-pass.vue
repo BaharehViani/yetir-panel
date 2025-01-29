@@ -78,6 +78,8 @@ const forgetForm = ref({
   phone: null,
 })
 
+const forgetLoading = ref(false)
+
 // Define validation rules for the form fields
 const forgetFormValidations = useVuelidate(
   {
@@ -89,8 +91,6 @@ const forgetFormValidations = useVuelidate(
   },
   forgetLoading.value,
 )
-
-const forgetLoading = ref(false)
 
 // Form submission handler
 const forgetFormLogInHandler = async () => {
