@@ -536,6 +536,6 @@ const signUpFormHandler = async () => {
     }
   }
 
-  navigateTo('/')
+  navigateTo('/login')
 }
 </script>

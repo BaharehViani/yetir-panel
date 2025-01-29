@@ -40,11 +40,6 @@
       </div>
       <v-divider class="my-8"></v-divider>
       <v-row class="text-center">
-        <v-col>
-          <p class="text-caption">
-            برای تکمیل پرداخت روی دکمه پرداخت کلیک کنید
-          </p>
-        </v-col>
       </v-row>
     </v-card>
   </div>
@@ -114,7 +109,7 @@ onMounted(() => {
 })
 
 definePageMeta({
-  layout: 'bill',
+  layout: 'panel',
 })
 </script>
 
