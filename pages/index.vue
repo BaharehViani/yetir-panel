@@ -36,7 +36,7 @@
             ما سالم میرسونیمش به مقصد!
           </div>
           <div class="mt-6 ml-96">
-            <v-btn block prepend-icon="mdi-login-variant" color="#0047FF" rounded="xl" @click="navigateTo('/login')">همین الان شروع کن</v-btn>
+            <v-btn block prepend-icon="mdi-login-variant" color="#0047FF" rounded="xl" @click="navigateTo('/sign-up')">همین الان شروع کن</v-btn>
           </div>
         </div>
         <div class="ml-12">

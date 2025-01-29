@@ -2,11 +2,11 @@
   <div class="p-0">
     <div v-if="items.length > 0">
       <v-data-table
-        :headers=" headers"
-        :items="items"
-        hide-default-footer
-        class="text-center"
-        color="red"
+          :headers="headers"
+          :items="items"
+          hide-default-footer
+          class="text-center"
+          color="red"
       >
         <template #item.id="{ item }">
           {{ item.code }}
@@ -30,15 +30,21 @@
           {{ item.order_request.cost + ' تومان' }}
         </template>
         <template #item.status="{ item }">
-          <v-chip :class="getStatusClass(item.status)"
-          >
-            {{ item.status }}
-          </v-chip>
+          <!--          <v-chip :class="getStatusClass(item.status)"-->
+          <!--          >-->
+          <!--            {{ item.status }}-->
+          <!--          </v-chip>-->
           <v-select
-          chips
-          :items="getStatusClass(item.status)"
-          variant="outlined"
-          rounded="xl"
+              v-model="item.status"
+              :items="statusOptions"
+              item-text="title"
+              item-value="key"
+              chips
+              variant="outlined"
+              rounded="xl"
+              class="mt-6"
+              :class="getStatusClass(item.status)"
+              @update:modelValue="(newValue) => updateStatus(item, newValue)"
           ></v-select>
         </template>
       </v-data-table>
@@ -70,6 +76,12 @@ const headers = ref([
   { title: 'وضعیت', key: 'status' },
   // { title: 'پذیرش سفارش', key: 'accept' },
 ])
+const statusOptions = ref([
+  { title: 'در انتظار دریافت', key: 'waiting_for_pickup' },
+  { title: 'در حال ارسال', key: 'in_delivery' },
+  { title: 'تحویل داده شده', key: 'delivered' },
+  { title: 'کنسل کردن سفارش', key: 'canceled' },
+])
 
 // Fetch order list
 const fetchOrderList = async () => {
@@ -78,9 +90,73 @@ const fetchOrderList = async () => {
     items.value = [response.data]
 
     console.log(response) // Update the table data with the fetched response
-
   } catch (e) {
     console.error('Error fetching order list:', e)
+  }
+}
+
+const updateStatus = async (item, newValue) => {
+  try {
+    if(newValue === "canceled"){
+
+      $swal.fire({
+        icon: 'question',
+        title: 'ایا از کنسل کردن سفارش مطمئن هستید؟',
+        showCancelButton: true,
+        confirmButtonColor: "#8FD14F",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "لغو سفارش",
+        cancelButtonText: "انصراف",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axiosInstance.patch(`/courier/orders/${item.id}`, {
+              status: item.status,
+            })
+
+            console.log(response.data)
+            $swal.fire({
+              title: "سفارش انتخاب شده لغو شد!",
+              icon: "success"
+            });
+
+          }catch (e){
+            console.error('Error updating status:', e)
+
+            $swal.fire({
+              icon: 'error',
+              title: 'خطا در به‌روزرسانی وضعیت',
+              timer: 2000,
+              showConfirmButton: false,});
+          }
+        }
+      });
+    }else{
+      const response = await axiosInstance.patch(`/courier/orders/${item.id}`, {
+        status: item.status,
+      })
+
+      console.log(response.data)
+
+      $swal.fire({
+        icon: 'success',
+        title: 'وضعیت با موفقیت به‌روزرسانی شد',
+        timer: 2000,
+        showConfirmButton: false,
+      })
+
+      console.log('Status updated:', response.data)
+    }
+
+  } catch (e) {
+    console.error('Error updating status:', e)
+
+    $swal.fire({
+      icon: 'error',
+      title: 'خطا در به‌روزرسانی وضعیت',
+      timer: 2000,
+      showConfirmButton: false,
+    })
   }
 }
 
@@ -91,19 +167,19 @@ onMounted(() => {
 const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
     case 'waiting_for_pickup':
-      return 'text-blue'
+      return 'text-orange'
     case 'in_delivery':
-      return 'text-green'
+      return 'text-blue'
     case 'delivered':
+      return 'text-green'
+    case 'canceled':
       return 'text-red'
     default:
       return ''
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
 
 </style>
-

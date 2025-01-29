@@ -42,6 +42,7 @@
               <div class="px-4">
                 <nuxt-link
                   class="rounded bg-[#f7f8fa] p-3 flex items-center mb-2 cursor-pointer"
+                  @click="SupportCall"
                 >
                   <v-icon icon="mdi-face-agent" class="black"></v-icon>
                   <div class="tet-white font-bold mr-2">تماس با پشتیبانی</div>
@@ -183,6 +184,29 @@ const logOutHandler = () => {
   userStore.logOut()
   navigateTo('/')
 }
+const { $swal } = useNuxtApp()
+
+const  SupportCall = async ()=> {
+
+  $swal.fire({
+    title: "برای ارتباط با پشتیبانی با شماره ۰۲۱۰۰۵۴۶ تماس بگیرید",
+    showClass: {
+      popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `
+    },
+    hideClass: {
+      popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `
+    }
+  });
+}
+
 </script>
 
 <style lang="scss" scoped>
