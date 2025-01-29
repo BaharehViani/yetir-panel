@@ -7,7 +7,7 @@
           :items="items"
           hide-default-footer
           color="red"
-          class="mr-2"
+          class="mr-2 text-right"
         >
           <template class="w-36" #item.code="{ item }">
             {{ item.order.code }}
