@@ -166,7 +166,7 @@
       <v-card-subtitle
           class="text-center text-gray-600 text-lg font-semibold pb-8"
       >
-        برای ورود شماره تلفن همراه خود را به همراه گذرواژه وارد کنید.
+        برای ورود شماره تلفن همراه خود را به همراه رمز عبور وارد کنید.
       </v-card-subtitle>
       <v-form class="mt-4" fast-fail @submit.prevent="loginFormLogInHandler">
         <v-text-field
