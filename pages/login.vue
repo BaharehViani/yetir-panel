@@ -294,7 +294,7 @@ const loginFormLogInHandler = async () => {
     loginLoading.value = false
   }
 
-  navigateTo('/_')
+  navigateTo('/_/customer/profile')
 }
 
 const showPassword = ref(false)
