@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-layout class="rounded-md">
-      <v-navigation-drawer id="drawer">
+      <v-navigation-drawer id="drawer" class="custom-drawer">
         <div class="h-full flex flex-col">
           <div id="logo" class="flex justify-center w-full">
             <div class="text-[#4880FF] text-xl font-extrabold">
@@ -71,7 +71,7 @@
         class="bg-[#F7F8FA] mt-6"
         :style="`padding-right: ${mainContentPaddingFromRight}px !important;`"
       >
-        <div class="p-6 bg-white ml-6 rounded-2xl">
+        <div class="p-6 bg-white ml-6 mr-6 rounded-2xl">
           <slot />
         </div>
       </v-main>

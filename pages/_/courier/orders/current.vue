@@ -1,6 +1,6 @@
 <template>
   <div class="p-0">
-    <div v-if="items.length > 0">
+    <div v-if="items.length >= 0">
       <v-data-table
           :headers="headers"
           :items="items"
@@ -30,10 +30,6 @@
           {{ item.order_request.cost + ' تومان' }}
         </template>
         <template #item.status="{ item }">
-          <!--          <v-chip :class="getStatusClass(item.status)"-->
-          <!--          >-->
-          <!--            {{ item.status }}-->
-          <!--          </v-chip>-->
           <v-select
               v-model="item.status"
               :items="statusOptions"

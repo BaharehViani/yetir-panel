@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="pr-6 pt-8 text-3xl font-bold text-[#141A31]">ایجاد درخواست جدید</div>
+    <div class="pr-2 pt-1 text-3xl font-bold text-[#141A31]">ایجاد درخواست جدید</div>
     <div>
-      <v-form class="flex-column pr-6 mt-8" @submit.prevent="orderRequestFormSubmitHandler">
+      <v-form class="flex-column pr-2 pl-2 mt-8" @submit.prevent="orderRequestFormSubmitHandler">
         <v-row>
           <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">مبدا</div>
@@ -30,7 +30,7 @@
           </v-col>
           <!-- نمایش نقشه -->
           <v-col cols="12">
-            <div>انتخاب آدرس روی نقشه</div>
+            <div class="font-sm font-medium mb-2">انتخاب مبدا و مقصد از روی نقشه</div>
             <neshanMap/>
           </v-col>
           <v-col cols="10" sm="6">

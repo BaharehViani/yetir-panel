@@ -280,14 +280,10 @@ const loginFormLogInHandler = async () => {
   loginLoading.value = true
 
   try {
-    const response = await axiosInstance.post(
-        '/users/authenticate',
-        loginForm.value,
-    )
+    const response = await axiosInstance.post('/users/authenticate', loginForm.value,)
     console.log(response)
     Cookies.set('auth_token', response.data.payload.token)
-    axiosInstance.defaults.headers.common['Authorization'] =
-        'Bearer ' + response.data.payload.token
+    axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.payload.token
   } catch (e) {
     console.log(e)
   } finally {

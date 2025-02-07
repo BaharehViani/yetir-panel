@@ -8,8 +8,8 @@
         color="red"
         class="mr-2 text-center"
       >
-        <template class="w-36 text-center" #item.id="{ index }">
-          {{ index + 1 }}
+        <template class="w-36 text-center" #item.id="{ item }">
+          {{ item.code }}
         </template>
         <template class="w-36 text-center" #item.type="{ item }">
           {{ item.order_request.type }}
@@ -26,9 +26,6 @@
         <template #item.dropOff_location="{ item }">
           {{ item.order_request.dropoff_location }}
         </template>
-        <template #item.courier-name="{ item }">
-          {{ item.courierinfo.user.first_name +' '+ item.courierinfo.user.last_name }}
-        </template>
         <template #item.="{ item }">
           {{ item.order_request.dropoff_location }}
         </template>
@@ -36,12 +33,9 @@
           {{ item.order_request.cost + ' تومان' }}
         </template>
         <template class="w-36" #item.status="{ item }">
-          <v-chip
-            :class="getStatusClass(item.status)"
-          >
-
-            {{ item.status }}
-          </v-chip>
+          <v-chip :class="getStatusClass(item.status)">
+              {{ getStatusPersian(item.status) }}
+            </v-chip>
         </template>
       </v-data-table>
     </div>
@@ -59,12 +53,11 @@ const items = ref([])
 // Table headers
 const headers = ref([
   { title: 'شماره', key: 'id', width: '80px' },
-  { title: 'نوع بسته ارسالی', key: 'type', width: '130px' },
-  { title: 'تاریخ ثبت', key: 'created-at', width: '130px' },
-  { title: 'تاریخ اخرین تغییرات', key: 'updated-at', width: '130px' },
+  { title: 'نوع بسته ', key: 'type', width: '130px' },
+  { title: 'تاریخ پذیرش', key: 'created-at', width: '130px' },
+  { title: 'تاریخ آخرین تغییرات', key: 'updated-at', width: '130px' },
   { title: 'مبدا', key: 'pickup_location', width: '130px' },
   { title: 'مقصد', key: 'dropOff_location',width: '130px' },
-  { title: 'اطلاعات پیک', key: 'courier-name',width: '130px' },
   { title: 'هزینه ارسال', key: 'cost',width: '130px' },
   { title: 'وضعیت', key: 'status',width: '130px' },
 ])
@@ -91,6 +84,20 @@ const getStatusClass = (status) => {
       return 'text-green'
     case 'canceled':
       return 'text-red'
+    default:
+      return ''
+  }
+}
+const getStatusPersian = (status) => {
+  switch (status.toLowerCase()) {
+    case 'waiting_for_pickup':
+      return 'در انظار دریافت'
+    case 'in_delivery':
+      return 'در حال ارسال'
+    case 'delivered':
+      return 'تحویل داده شده'
+    case 'canceled':
+      return 'کنسل شده'  
     default:
       return ''
   }

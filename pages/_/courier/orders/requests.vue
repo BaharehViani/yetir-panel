@@ -1,6 +1,6 @@
 <template>
   <div  class="p-0">
-    <div v-if="items.length > 0">
+    <div v-if="items.length >= 0">
 <!--      Data table setting-->
       <v-data-table
         :headers="headers"

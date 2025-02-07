@@ -8,8 +8,8 @@
         color="red"
         class="mr-2 text-center"
       >
-        <template class="w-36 text-center" #item.id="{ index }">
-          {{ index + 1 }}
+        <template class="w-36 text-center" #item.id="{ item }">
+          {{ item.code }}
         </template>
         <template class="w-36 text-center" #item.type="{ item }">
           {{ item.order_request.type }}
@@ -36,12 +36,9 @@
           {{ item.order_request.cost + ' تومان' }}
         </template>
         <template class="w-36" #item.status="{ item }">
-          <v-chip
-            :class="getStatusClass(item.status)"
-          >
-
-            {{ item.status }}
-          </v-chip>
+          <v-chip :class="getStatusClass(item.status)">
+              {{ getStatusPersian(item.status) }}
+            </v-chip>
         </template>
       </v-data-table>
     </div>
@@ -91,6 +88,20 @@ const getStatusClass = (status) => {
       return 'text-green'
     case 'canceled':
       return 'text-red'
+    default:
+      return ''
+  }
+}
+const getStatusPersian = (status) => {
+  switch (status.toLowerCase()) {
+    case 'waiting_for_pickup':
+      return 'در انظار دریافت'
+    case 'in_delivery':
+      return 'در حال ارسال'
+    case 'delivered':
+      return 'تحویل داده شده'
+    case 'canceled':
+      return 'کنسل شده'  
     default:
       return ''
   }
