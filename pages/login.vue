@@ -173,7 +173,7 @@
             v-model="loginForm.phone"
             label="شماره موبایل"
             dir="rtl"
-            placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
+            placeholder="۰۹۳۶۲۱۶۰۱۱۱"
             outlined
             dense
             @blur="loginFormValidations.phone.$touch"
@@ -294,7 +294,7 @@ const loginFormLogInHandler = async () => {
     loginLoading.value = false
   }
 
-  navigateTo('/_/customer/profile')
+  navigateTo('/')
 }
 
 const showPassword = ref(false)

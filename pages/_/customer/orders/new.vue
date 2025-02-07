@@ -4,10 +4,7 @@
     <div>
       <v-form class="flex-column pr-6 mt-8" @submit.prevent="orderRequestFormSubmitHandler">
         <v-row>
-          <v-col
-            cols="10"
-            sm="6"
-          >
+          <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">مبدا</div>
             <v-textarea
               v-model="newOrderRequestForm.pickup_location"
@@ -19,10 +16,7 @@
               auto-grow
             ></v-textarea>
           </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-          >
+          <v-col cols="12" sm="6">
             <div class="font-sm font-medium mb-2">مقصد</div>
             <v-textarea
               v-model="newOrderRequestForm.dropoff_location"
@@ -34,10 +28,14 @@
               auto-grow
             ></v-textarea>
           </v-col>
-          <v-col
-            cols="10"
-            sm="6"
-          >
+          
+          <!-- نمایش نقشه -->
+          <v-col cols="12">
+            <div class="font-sm font-medium mb-2">انتخاب آدرس روی نقشه</div>
+            <div id="map" class="map-container"></div>
+          </v-col>
+
+          <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">وزن</div>
             <v-textarea
               v-model="newOrderRequestForm.weight"
@@ -50,10 +48,7 @@
               shaped
             ></v-textarea>
           </v-col>
-          <v-col
-            cols="10"
-            sm="6"
-          >
+          <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">نوع بسته ارسالی</div>
             <v-select
               v-model="newOrderRequestForm.type"
@@ -64,9 +59,7 @@
               variant="outlined"
             ></v-select>
           </v-col>
-          <v-col
-
-          >
+          <v-col>
             <div class="font-sm font-medium mb-2">توضیحات</div>
             <v-textarea
               v-model="newOrderRequestForm.description"
@@ -79,12 +72,7 @@
         </v-row>
 
         <div class="flex justify-end">
-          <v-btn
-            class="font-sm font-medium"
-            size="large"
-            type="submit"
-            color="blue"
-          >ثبت سفارش</v-btn>
+          <v-btn class="font-sm font-medium" size="large" type="submit" color="blue">ثبت سفارش</v-btn>
         </div>
       </v-form>
     </div>
@@ -92,28 +80,25 @@
 </template>
 
 <script setup>
-import axiosInstance from '~/utils/axiosinstance.js'
+import { onMounted } from 'vue';
+import axiosInstance from '~/utils/axiosinstance.js';
 
-definePageMeta({
-  layout: 'panel'
-})
+definePageMeta({ layout: 'panel' });
 
-const { $swal } = useNuxtApp()
+const { $swal } = useNuxtApp();
 
-// New order form values
 const newOrderRequestForm = ref({
   type: null,
   description: null,
   pickup_location: null,
   dropoff_location: null,
   weight: null,
-})
+});
 
-// Posting new order created by user
 const orderRequestFormSubmitHandler = async () => {
   try {
-    const response = await axiosInstance.post('/customer/order-requests', newOrderRequestForm.value)
-    console.log(response)
+    const response = await axiosInstance.post('/customer/order-requests', newOrderRequestForm.value);
+    console.log(response);
 
     $swal.fire({
       icon: "success",
@@ -122,7 +107,7 @@ const orderRequestFormSubmitHandler = async () => {
       position: 'center',
       timer: 2000,
       showConfirmButton: false,
-    })
+    });
 
     newOrderRequestForm.value = {
       type: null,
@@ -130,10 +115,9 @@ const orderRequestFormSubmitHandler = async () => {
       pickup_location: null,
       dropoff_location: null,
       weight: null,
-    }
-
+    };
   } catch (e) {
-    console.log(e)
+    console.log(e);
 
     $swal.fire({
       icon: "error",
@@ -142,12 +126,36 @@ const orderRequestFormSubmitHandler = async () => {
       position: 'center',
       timer: 2000,
       showConfirmButton: false,
-    })
+    });
   }
-}
+};
 
+onMounted(() => {
+  if (window.google) {
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 35.6892, lng: 51.3890 },
+      zoom: 12,
+    });
+
+    const marker = new google.maps.Marker({
+      position: { lat: 35.6892, lng: 51.3890 },
+      map,
+      draggable: true,
+    });
+
+    marker.addListener('dragend', (event) => {
+      newOrderRequestForm.value.pickup_location = `${event.latLng.lat()}, ${event.latLng.lng()}`;
+    });
+  }
+});
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+.map-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
 </style>

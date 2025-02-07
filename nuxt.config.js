@@ -10,6 +10,12 @@ export default defineNuxtConfig({
             viewport: 'width=device-width, initial-scale=1',
             titleTemplate: '%s :: یتیر',
             title: 'سرویس مرسوله هوشمند',
+            script: [
+                { src: "https://static.neshan.org/sdk/openlayers/5.3.0/ol.js" }
+            ],
+            link: [
+                { rel: "stylesheet", href: "https://static.neshan.org/sdk/openlayers/5.3.0/ol.css" }
+            ],
         },
     },
     sourcemap: {

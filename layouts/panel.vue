@@ -111,20 +111,6 @@ const menuItems = computed(
           class: 'bg-[#4880FF]',
         },
         {
-          link: '/_/customer/orders/',
-          label: 'لیست سفارشات',
-          icon: 'mdi-format-list-bulleted',
-          iconClass: 'rotate-180',
-          class: 'bg-[#4880FF]',
-        },
-        {
-          link: '/_/customer/orders/requests',
-          label: '  لیست درخواست ها',
-          icon: 'mdi-list-status',
-          iconClass: '',
-          class: 'bg-[#4880FF]',
-        },
-        {
           link: '/_/customer/orders/new',
           label: 'ایجاد درخواست جدید',
           icon: 'mdi-plus-box-outline',
@@ -132,8 +118,22 @@ const menuItems = computed(
           class: 'bg-[#4880FF]',
         },
         {
+          link: '/_/customer/orders/requests',
+          label: 'لیست درخواست ها',
+          icon: 'mdi-list-status',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/customer/orders/',
+          label: 'لیست سفارشات',
+          icon: 'mdi-format-list-bulleted',
+          iconClass: 'rotate-180',
+          class: 'bg-[#4880FF]',
+        },
+        {
           link: '/_/customer/invoices/invoice',
-          label: 'فاکتور و پرداخت ها',
+          label: 'فاکتور ها و پرداخت ',
           icon: 'mdi-view-dashboard',
           iconClass: '',
           class: 'bg-[#4880FF]',
@@ -155,17 +155,17 @@ const menuItems = computed(
           class: 'bg-[#8FD14F]',
         },
         {
+          link: '/_/courier/orders/requests',
+          label: 'لیست درخواست ها',
+          icon: 'mdi-list-status',
+          iconClass: '',
+          class: 'bg-[#4880FF]',
+        },
+        {
           link: '/_/courier/orders/',
           label: 'لیست سفارشات',
           icon: 'mdi-format-list-bulleted',
           iconClass: 'rotate-180',
-          class: 'bg-[#4880FF]',
-        },
-        {
-          link: '/_/courier/orders/requests',
-          label: '  لیست درخواست ها',
-          icon: 'mdi-list-status',
-          iconClass: '',
           class: 'bg-[#4880FF]',
         },
       ],
@@ -189,7 +189,7 @@ const { $swal } = useNuxtApp()
 const  SupportCall = async ()=> {
 
   $swal.fire({
-    title: "برای ارتباط با پشتیبانی با شماره ۰۲۱۰۰۵۴۶ تماس بگیرید",
+    title: "برای ارتباط با پشتیبانی با شماره ۰۴۱۳۳۳۵۱۵۴۶ تماس بگیرید",
     showClass: {
       popup: `
         animate__animated
