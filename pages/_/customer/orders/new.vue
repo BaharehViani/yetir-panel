@@ -28,13 +28,11 @@
               auto-grow
             ></v-textarea>
           </v-col>
-          
           <!-- نمایش نقشه -->
           <v-col cols="12">
-            <div class="font-sm font-medium mb-2">انتخاب آدرس روی نقشه</div>
-            <div id="map" class="map-container"></div>
+            <div>انتخاب آدرس روی نقشه</div>
+            <neshanMap/>
           </v-col>
-
           <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">وزن</div>
             <v-textarea
@@ -63,7 +61,7 @@
             <div class="font-sm font-medium mb-2">توضیحات</div>
             <v-textarea
               v-model="newOrderRequestForm.description"
-              placeholder="توضیحات بسته خود را اضافه کنید"
+              placeholder="در صورت نیاز توضیحات مربوط به بسته خود را وارد کنید مانند نام گیرنده و..."
               variant="outlined"
               auto-grow
               shaped
@@ -82,6 +80,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import axiosInstance from '~/utils/axiosinstance.js';
+import neshanMap from '~/components/NeshanMap.vue';
 
 definePageMeta({ layout: 'panel' });
 
@@ -130,32 +129,8 @@ const orderRequestFormSubmitHandler = async () => {
   }
 };
 
-onMounted(() => {
-  if (window.google) {
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 35.6892, lng: 51.3890 },
-      zoom: 12,
-    });
-
-    const marker = new google.maps.Marker({
-      position: { lat: 35.6892, lng: 51.3890 },
-      map,
-      draggable: true,
-    });
-
-    marker.addListener('dragend', (event) => {
-      newOrderRequestForm.value.pickup_location = `${event.latLng.lat()}, ${event.latLng.lng()}`;
-    });
-  }
-});
 </script>
 
 <style scoped>
-.map-container {
-  width: 100%;
-  height: 300px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-top: 10px;
-}
+
 </style>
