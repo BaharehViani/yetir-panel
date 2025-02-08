@@ -58,7 +58,7 @@ const headers = ref([
   { title: 'هزینه', key: 'total' },
   { title: 'مالیات', key: 'tax' },
   { title: 'مبلغ نهایی', key: 'grand_total' },
-  { title: 'وضعیت', key: 'status', sortable: false},
+  { title: 'وضعیت', key: 'status' },
   { title: 'عملیات', key: 'actions' },
 ])
 

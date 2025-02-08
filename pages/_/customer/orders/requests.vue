@@ -54,7 +54,7 @@ const headers = ref([
   { title: 'مقصد', key: 'dropOff_location' },
   { title: 'توضیحات', key: 'description' },
   { title: 'وزن', key: 'weight' },
-  { title: 'هزینه ارسال', key: 'cost' },
+  { title: 'هزینه ارسال', key: 'cost', align: 'center' },
   { title: 'وضعیت', key: 'status' },
 ])
 
