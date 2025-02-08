@@ -58,7 +58,7 @@ const items = ref([])
 // Table headers
 const headers = ref([
   { title: 'شماره', key: 'id', width: '80px' },
-  { title: 'نوع بسته ارسالی', key: 'type', width: '130px' },
+  { title: 'نوع بسته', key: 'type', width: '130px' },
   { title: 'تاریخ پذیرش', key: 'created-at', width: '130px' },
   { title: 'تاریخ آخرین تغییر', key: 'updated-at', width: '130px' },
   { title: 'مبدا', key: 'pickup_location', width: '130px' },
