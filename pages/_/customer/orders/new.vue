@@ -14,6 +14,7 @@
               rows="1"
               variant="outlined"
               auto-grow
+              @focus="setPickupSelected(true)"
             ></v-textarea>
           </v-col>
           <v-col cols="12" sm="6">
@@ -26,12 +27,13 @@
               rows="1"
               variant="outlined"
               auto-grow
+              @focus="setPickupSelected(false)"
             ></v-textarea>
           </v-col>
           <!-- نمایش نقشه -->
           <v-col cols="12">
             <div class="font-sm font-medium mb-2">انتخاب مبدا و مقصد از روی نقشه</div>
-            <neshanMap/>
+            <neshanMap @updateAddress="handleMapClick"/>
           </v-col>
           <v-col cols="10" sm="6">
             <div class="font-sm font-medium mb-2">وزن</div>
@@ -65,6 +67,7 @@
               variant="outlined"
               auto-grow
               shaped
+              rows="3"
             ></v-textarea>
           </v-col>
         </v-row>
@@ -126,6 +129,18 @@ const orderRequestFormSubmitHandler = async () => {
       timer: 2000,
       showConfirmButton: false,
     });
+  }
+};
+
+const isPickupSelected = ref(true);
+const setPickupSelected = (isPickup) => {
+  isPickupSelected.value = isPickup;
+};
+const handleMapClick = ({ address }) => {
+  if (isPickupSelected.value) {
+    newOrderRequestForm.value.pickup_location = address;
+  } else {
+    newOrderRequestForm.value.dropoff_location = address;
   }
 };
 
