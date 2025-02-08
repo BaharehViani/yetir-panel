@@ -1,4 +1,5 @@
 <template>
+  <div class="pr-10 pt-1 text-3xl text-[#141A31]">لیست فاکتور ها</div>
   <div>
     <v-card class="py-5 px-8 flex-col" :rounded="false" flat>
       <div>
@@ -17,7 +18,7 @@
             {{ formatPrice(item.total) }}
           </template>
           <template #item.tax="{ item }">
-            {{ formatPrice(item.grand_total) }}
+            {{ formatPrice(item.tax) }}
           </template>
           <template #item.grand_total="{ item }">
             {{ formatPrice(item.grand_total) }}
@@ -54,7 +55,7 @@ const items = ref([])
 // Column headers for the data table
 const headers = ref([
   { title: 'شماره سفارش', key: 'code' },
-  { title: 'فی قیمت', key: 'total' },
+  { title: 'هزینه', key: 'total' },
   { title: 'مالیات', key: 'tax' },
   { title: 'مبلغ نهایی', key: 'grand_total' },
   { title: 'وضعیت', key: 'status' },

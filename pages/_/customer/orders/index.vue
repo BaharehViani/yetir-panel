@@ -1,4 +1,5 @@
 <template>
+  <div class="pr-6 pt-1 mb-4 text-3xl text-[#141A31]">لیست سفارشات</div>
   <div>
     <div v-if="items.length > 0">
       <v-data-table
@@ -15,10 +16,10 @@
           {{ item.order_request.type }}
         </template>
         <template #item.created-at="{ item }">
-          {{ item.created_at }}
+          {{ formatDate(item.created_at) }}
         </template>
         <template class="w-36" #item.updated-at="{ item }">
-          {{ item.updated_at }}
+          {{ formatDate(item.updated_at) }}
         </template>
         <template #item.pickup_location="{ item }">
           {{ item.order_request.pickup_location }}
@@ -46,6 +47,7 @@
 </template>
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
+import { formatDate } from '~/utils/formatDate'
 
 definePageMeta({
   layout: 'panel',
@@ -57,11 +59,11 @@ const items = ref([])
 const headers = ref([
   { title: 'شماره', key: 'id', width: '80px' },
   { title: 'نوع بسته ارسالی', key: 'type', width: '130px' },
-  { title: 'تاریخ ثبت', key: 'created-at', width: '130px' },
-  { title: 'تاریخ اخرین تغییرات', key: 'updated-at', width: '130px' },
+  { title: 'تاریخ پذیرش', key: 'created-at', width: '130px' },
+  { title: 'تاریخ آخرین تغییر', key: 'updated-at', width: '130px' },
   { title: 'مبدا', key: 'pickup_location', width: '130px' },
   { title: 'مقصد', key: 'dropOff_location',width: '130px' },
-  { title: 'اطلاعات پیک', key: 'courier-name',width: '130px' },
+  { title: 'نام پیک', key: 'courier-name',width: '130px' },
   { title: 'هزینه ارسال', key: 'cost',width: '130px' },
   { title: 'وضعیت', key: 'status',width: '130px' },
 ])

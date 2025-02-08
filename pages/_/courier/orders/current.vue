@@ -1,4 +1,5 @@
 <template>
+  <div class="pr-2 pt-1 mb-4 font-bold text-3xl text-[#141A31]">سفارش جاری</div>
   <div class="p-0">
     <div v-if="items.length >= 0">
       <v-data-table
@@ -15,7 +16,7 @@
           {{ item.order_request.type }}
         </template>
         <template #item.updated-at="{ item }">
-          {{ item.updated_at }}
+          {{ formatDate(item.updated_at) }}
         </template>
         <template #item.pickup_location="{ item }">
           {{ item.order_request.pickup_location }}
@@ -50,6 +51,7 @@
 
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
+import { formatDate } from '~/utils/formatDate'
 
 definePageMeta({
   layout: 'panel',

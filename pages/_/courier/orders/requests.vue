@@ -1,4 +1,5 @@
 <template>
+  <div class="pr-2 pt-1 mb-4 text-3xl text-[#141A31]">لیست درخواست ها</div>
   <div  class="p-0">
     <div v-if="items.length >= 0">
 <!--      Data table setting-->
@@ -16,10 +17,10 @@
           {{ item.type }}
         </template>
         <template class="w-36" #item.created-at="{ item }">
-          {{ item.created_at }}
+          {{ formatDate(item.created_at) }}
         </template>
         <template class="w-36" #item.updated-at="{ item }">
-          {{ item.updated_at }}
+          {{ formatDate(item.updated_at) }}
         </template>
         <template #item.pickup_location="{ item }">
           {{ item.pickup_location }}
@@ -45,6 +46,7 @@
 
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
+import { formatDate } from '~/utils/formatDate'
 
 definePageMeta({
   layout: 'panel',

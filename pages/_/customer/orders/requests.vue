@@ -1,7 +1,6 @@
 <template>
-  <div  class="p-0">
+  <div class="pr-2 pt-1 mb-4 text-3xl text-[#141A31]">لیست درخواست ها</div>
     <div v-if="items.length > 0">
-
       <v-data-table
         :headers="headers"
         :items="items"
@@ -16,10 +15,7 @@
           {{ item.type }}
         </template>
         <template class="w-36" #item.created-at="{ item }">
-          {{ item.created_at }}
-        </template>
-        <template class="w-36" #item.updated-at="{ item }">
-          {{ item.updated_at }}
+          {{ formatDate(item.created_at) }}
         </template>
         <template #item.pickup_location="{ item }">
           {{ item.pickup_location }}
@@ -36,12 +32,12 @@
             </v-chip>
         </template>
       </v-data-table>
-    </div>
   </div>
 </template>
 
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
+import { formatDate } from '~/utils/formatDate'
 
 definePageMeta({
   layout: 'panel',
@@ -53,7 +49,7 @@ const items = ref([])
 const headers = ref([
   { title: 'شماره', key: 'id' },
   { title: 'نوع بسته ارسالی', key: 'type' },
-  { title: 'تاریخ ثبت', key: 'updated-at' },
+  { title: 'تاریخ ثبت', key: 'created-at' },
   { title: 'مبدا', key: 'pickup_location' },
   { title: 'مقصد', key: 'dropOff_location' },
   { title: 'توضیحات', key: 'description' },
