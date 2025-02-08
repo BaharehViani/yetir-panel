@@ -25,13 +25,13 @@
         </div>
       </div>
       <div class="mt-10 flex justify-space-between">
-        <div class="max-w-2xl text-white text-right mt-28 mr-28">
+        <div class="max-w-2xl text-white text-right mt-16 mr-28">
           <div class="text-5xl">
             با
             <span class="text-[#0047FF]">یتیر</span>
             ، ارسال سریع و مطمئن مرسولات درون‌شهری را تجربه کنید!
           </div>
-          <div class="text-xl mt-4 text-[#E3E3E3]">
+          <div class="text-l mt-4 text-[#E3E3E3]">
             مهم نیست بسته ای که میخوای بفرستی پاکت باشه یا جعبه، بزرگ باشه یا کوچیک، سنگین باشه یا سبک
             ما سالم میرسونیمش به مقصد!
           </div>
