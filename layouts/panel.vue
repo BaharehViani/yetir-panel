@@ -71,7 +71,7 @@
         class="bg-[#F7F8FA] mt-6"
         
       >
-        <div class="p-6 bg-white ml-6 mr-6 rounded-2xl">
+        <div class="p-6 bg-white ml-6 mr-6 mb-8 rounded-2xl">
           <slot />
         </div>
       </v-main>
