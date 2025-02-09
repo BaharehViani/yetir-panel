@@ -23,6 +23,9 @@
         <template #item.dropOff_location="{ item }">
           {{ item.dropoff_location }}
         </template>
+        <template #item.weight="{ item }">
+          {{ item.weight + ' گرم' }}
+        </template>
         <template #item.cost="{ item }">
           {{ item.cost + ' تومان' }}
         </template>

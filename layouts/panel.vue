@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-layout class="rounded-md">
-      <v-navigation-drawer id="drawer">
-        <div class="h-full flex flex-col">
+      <v-navigation-drawer id="drawer" class="fixed">
+        <div class="h-screen flex flex-col">
           <div id="logo" class="flex justify-center w-full">
             <div class="text-[#4880FF] text-xl font-extrabold">
               Yetir Delivery
@@ -14,7 +14,7 @@
           <div id="menu-item" class="py-10 flex-grow-1 pt-0">
             <div class="px-4">
               <nuxt-link to="/_/profile" class="rounded p-3 flex items-center mb-2">
-                <v-avatar>
+                <v-avatar size="52">
                   <v-img :src="Avatar" alt="avatar" />
                 </v-avatar>
                 <div class="tet-white font-bold flex-column mr-2">
@@ -67,11 +67,8 @@
         </template>
       </v-app-bar>
 
-      <v-main
-        class="bg-[#F7F8FA] mt-6"
-        
-      >
-        <div class="p-6 bg-white ml-6 mr-6 mb-8 rounded-2xl">
+      <v-main class="bg-[#F7F8FA] overflow-y-auto h-screen">
+        <div class="p-6 bg-white m-6 rounded-2xl">
           <slot />
         </div>
       </v-main>
@@ -224,6 +221,8 @@ const SupportCall = async ()=> {
 #drawer {
   flex-direction: column;
   justify-content: space-between;
+  height: 100vh !important;
+  overflow: hidden !important;
 }
 
 #menu-item {
