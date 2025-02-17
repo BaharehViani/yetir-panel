@@ -46,16 +46,22 @@
         </template>
       </v-data-table>
     </div>
+    <div v-show="items.length > 0">
+      <neshanMap ref="neshanMapRef"/>
+    </div>
   </div>
 </template>
 
 <script setup>
 import axiosInstance from '~/utils/axiosinstance.js'
 import { formatDate } from '~/utils/formatDate'
+import neshanMap from '~/components/NeshanMap.vue';
 
 definePageMeta({
   layout: 'panel',
 })
+
+const neshanMapRef = ref(null);
 
 const { $swal } = useNuxtApp()
 
@@ -157,10 +163,6 @@ const updateStatus = async (item, newValue) => {
   }
 }
 
-//Fetch data on component mount
-onMounted(() => {
-  fetchOrderList()
-})
 const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
     case 'waiting_for_pickup':
@@ -175,6 +177,15 @@ const getStatusClass = (status) => {
       return ''
   }
 }
+
+//Fetch data on component mount
+onMounted(() => {
+  fetchOrderList()
+  nextTick(() => {
+    neshanMapRef.value?.fetchRandomRoute();
+  });
+})
+
 </script>
 
 <style lang="scss" scoped>
