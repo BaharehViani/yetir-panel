@@ -84,20 +84,51 @@ const getAddressFromNeshan = async (lat: number, lng: number): Promise<string> =
   }
 };
 
-const fetchRandomRoute = async () => {
-  const origin = { lat: 38.0271, lng: 46.3534 }; 
-  const destination = { lat: 38.0605 , lng: 46.3257};
-  console.log("در حال ارسال درخواست با این مقادیر:", origin, destination);
-
+const fetchRandomRoute = async (originAddress: string, destinationAddress: string) => {
   try {
+    const geocode = async (address: string) => {
+      try {
+        const response = await axios.get(
+          `https://api.neshan.org/v4/geocoding?address=${encodeURIComponent(address)}`,
+          {
+            headers: { "Api-Key": API_KEY },
+          }
+        );
+
+        console.log("Geocode Response for", address, response.data);
+
+        if (response.data.location) {
+          return {
+            lat: response.data.location.y,
+            lng: response.data.location.x,
+          };
+        } else {
+          console.error(`مختصات برای آدرس ${address} یافت نشد!`);
+          return null;
+        }
+      } catch (error) {
+        console.error(`خطا در تبدیل آدرس ${address} به مختصات`, error);
+        return null;
+      }
+    };
+
+    const origin = await geocode(originAddress);
+    const destination = await geocode(destinationAddress);
+
+    if (!origin || !destination) {
+      console.error("مختصات مبدا یا مقصد دریافت نشد!");
+      return;
+    }
+
     const response = await axios.get(
       `https://api.neshan.org/v4/direction?type=car&origin=${origin.lat},${origin.lng}&destination=${destination.lat},${destination.lng}`,
       {
         headers: { "Api-Key": API_KEY },
       }
     );
+
     const encodedPolyline = response.data.routes[0].overview_polyline.points;
-    routePath.value = polyline.decode(encodedPolyline);  
+    routePath.value = polyline.decode(encodedPolyline);
 
     if (!mapInstance) {
       console.error("نقشه هنوز مقداردهی نشده است.");
@@ -121,7 +152,7 @@ const fetchRandomRoute = async () => {
         }
       });
 
-      const vectorSource = new VectorSource({features: [feature]});
+      const vectorSource = new VectorSource({ features: [feature] });
       const vectorLayer = new VectorLayer({
         source: vectorSource,
         style: routeStyle,
@@ -137,6 +168,7 @@ const fetchRandomRoute = async () => {
       const destinationFeature = new Feature({
         geometry: new Point(fromLonLat([destination.lng, destination.lat])),
       });
+
       originFeature.setStyle(
         new Style({
           image: new Icon({
@@ -166,7 +198,7 @@ const fetchRandomRoute = async () => {
       setTimeout(() => {
         view.animate({
           center: fromLonLat([centerLng, centerLat]),
-          zoom: 13.5,
+          zoom: 13,
           duration: 1000,
         });
       }, 1000);

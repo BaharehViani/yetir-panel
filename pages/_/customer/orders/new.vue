@@ -81,7 +81,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import axiosInstance from '~/utils/axiosinstance.js';
 import neshanMap from '~/components/NeshanMap.vue';
 

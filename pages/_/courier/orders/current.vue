@@ -179,12 +179,18 @@ const getStatusClass = (status) => {
 }
 
 //Fetch data on component mount
-onMounted(() => {
-  fetchOrderList()
+onMounted(async () => {
+  await fetchOrderList(); // صبر کن تا اطلاعات لود بشه
+
   nextTick(() => {
-    neshanMapRef.value?.fetchRandomRoute();
+    if (items.value.length > 0) {
+      neshanMapRef.value?.fetchRandomRoute(
+        items.value[0].order_request.pickup_location, 
+        items.value[0].order_request.dropoff_location
+      );
+    }
   });
-})
+});
 
 </script>
 
