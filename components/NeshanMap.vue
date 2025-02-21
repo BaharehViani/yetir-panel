@@ -84,24 +84,17 @@ const getAddressFromNeshan = async (lat: number, lng: number): Promise<string> =
   }
 };
 
-const fetchRandomRoute = async (originAddress: string, destinationAddress: string) => {
+const fetchRoute = async (origin: { lat: number, lng: number } | string, destination: { lat: number, lng: number } | string) => {
   try {
     const geocode = async (address: string) => {
       try {
         const response = await axios.get(
           `https://api.neshan.org/v4/geocoding?address=${encodeURIComponent(address)}`,
-          {
-            headers: { "Api-Key": API_KEY },
-          }
+          { headers: { "Api-Key": API_KEY } }
         );
 
-        console.log("Geocode Response for", address, response.data);
-
         if (response.data.location) {
-          return {
-            lat: response.data.location.y,
-            lng: response.data.location.x,
-          };
+          return { lat: response.data.location.y, lng: response.data.location.x };
         } else {
           console.error(`مختصات برای آدرس ${address} یافت نشد!`);
           return null;
@@ -112,19 +105,19 @@ const fetchRandomRoute = async (originAddress: string, destinationAddress: strin
       }
     };
 
-    const origin = await geocode(originAddress);
-    const destination = await geocode(destinationAddress);
+    // بررسی کنید که ورودی‌ها آدرس هستند یا مختصات
+    const originCoords = typeof origin === "string" ? await geocode(origin) : origin;
+    const destinationCoords = typeof destination === "string" ? await geocode(destination) : destination;
 
-    if (!origin || !destination) {
+    if (!originCoords || !destinationCoords) {
       console.error("مختصات مبدا یا مقصد دریافت نشد!");
       return;
     }
 
+    // دریافت مسیر از API نشان
     const response = await axios.get(
-      `https://api.neshan.org/v4/direction?type=car&origin=${origin.lat},${origin.lng}&destination=${destination.lat},${destination.lng}`,
-      {
-        headers: { "Api-Key": API_KEY },
-      }
+      `https://api.neshan.org/v4/direction?type=car&origin=${originCoords.lat},${originCoords.lng}&destination=${destinationCoords.lat},${destinationCoords.lng}`,
+      { headers: { "Api-Key": API_KEY } }
     );
 
     const encodedPolyline = response.data.routes[0].overview_polyline.points;
@@ -140,10 +133,7 @@ const fetchRandomRoute = async (originAddress: string, destinationAddress: strin
       const line = new LineString(coordinates);
       const feature = new Feature({ geometry: line });
       const routeStyle = new Style({
-        stroke: new Stroke({
-          color: "blue",
-          width: 5,
-        }),
+        stroke: new Stroke({ color: "blue", width: 5 }),
       });
 
       mapInstance.getLayers().forEach(layer => {
@@ -153,54 +143,33 @@ const fetchRandomRoute = async (originAddress: string, destinationAddress: strin
       });
 
       const vectorSource = new VectorSource({ features: [feature] });
-      const vectorLayer = new VectorLayer({
-        source: vectorSource,
-        style: routeStyle,
-      });
+      const vectorLayer = new VectorLayer({ source: vectorSource, style: routeStyle });
       mapInstance.addLayer(vectorLayer);
 
       const markerSource = new VectorSource();
       const markerLayer = new VectorLayer({ source: markerSource });
 
       const originFeature = new Feature({
-        geometry: new Point(fromLonLat([origin.lng, origin.lat])),
+        geometry: new Point(fromLonLat([originCoords.lng, originCoords.lat])),
       });
       const destinationFeature = new Feature({
-        geometry: new Point(fromLonLat([destination.lng, destination.lat])),
+        geometry: new Point(fromLonLat([destinationCoords.lng, destinationCoords.lat])),
       });
 
-      originFeature.setStyle(
-        new Style({
-          image: new Icon({
-            src: "/gps.png",
-            scale: 0.06,
-          }),
-        })
-      );
-      destinationFeature.setStyle(
-        new Style({
-          image: new Icon({
-            src: "/gps-red.png",
-            scale: 0.06,
-          }),
-        })
-      );
+      originFeature.setStyle(new Style({ image: new Icon({ src: "/gps.png", scale: 0.06 }) }));
+      destinationFeature.setStyle(new Style({ image: new Icon({ src: "/gps-red.png", scale: 0.06 }) }));
 
       markerSource.addFeature(originFeature);
       markerSource.addFeature(destinationFeature);
 
       mapInstance.addLayer(markerLayer);
 
-      const centerLat = (origin.lat + destination.lat) / 2;
-      const centerLng = (origin.lng + destination.lng) / 2;
+      const centerLat = (originCoords.lat + destinationCoords.lat) / 2;
+      const centerLng = (originCoords.lng + destinationCoords.lng) / 2;
 
       const view = mapInstance.getView();
       setTimeout(() => {
-        view.animate({
-          center: fromLonLat([centerLng, centerLat]),
-          zoom: 13,
-          duration: 1000,
-        });
+        view.animate({ center: fromLonLat([centerLng, centerLat]), zoom: 13.5, duration: 1000 });
       }, 1000);
     }
   } catch (error) {
@@ -208,7 +177,7 @@ const fetchRandomRoute = async (originAddress: string, destinationAddress: strin
   }
 };
 
-defineExpose({ fetchRandomRoute });
+defineExpose({ fetchRoute });
 </script>
 
 <style>

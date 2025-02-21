@@ -31,18 +31,20 @@
           {{ item.order_request.cost + ' تومان' }}
         </template>
         <template #item.status="{ item }">
-          <v-select
-              v-model="item.status"
-              :items="statusOptions"
-              item-text="title"
-              item-value="key"
-              chips
-              variant="outlined"
-              rounded="xl"
-              class="mt-6"
-              :class="getStatusClass(item.status)"
-              @update:modelValue="(newValue) => updateStatus(item, newValue)"
-          ></v-select>
+          <div class="status-cell">
+            <v-select
+                v-model="item.status"
+                :items="statusOptions"
+                item-text="title"
+                item-value="key"
+                chips
+                variant="outlined"
+                rounded="xl"
+                class="mt-6"
+                :class="getStatusClass(item.status)"
+                @update:modelValue="(newValue) => updateStatus(item, newValue)"
+            ></v-select>
+          </div>
         </template>
       </v-data-table>
     </div>
@@ -69,14 +71,14 @@ const items = ref([])
 
 // Table headers
 const headers = ref([
-  { title: 'شماره', key: 'id' },
-  { title: 'نوع بسته', key: 'type' },
-  { title: 'تاریخ ثبت', key: 'updated-at' },
-  { title: 'مبدا', key: 'pickup_location' },
-  { title: 'مقصد', key: 'dropOff_location' },
-  { title: 'وزن', key: 'weight' },
-  { title: 'هزینه ارسال', key: 'cost' },
-  { title: 'وضعیت', key: 'status' },
+  { title: 'شماره', key: 'id', align: 'center' },
+  { title: 'نوع بسته', key: 'type', align: 'center' },
+  { title: 'تاریخ ثبت', key: 'updated-at', align: 'center' },
+  { title: 'مبدا', key: 'pickup_location', align: 'center' },
+  { title: 'مقصد', key: 'dropOff_location', align: 'center' },
+  { title: 'وزن', key: 'weight', align: 'center' },
+  { title: 'هزینه ارسال', key: 'cost', align: 'center' },
+  { title: 'وضعیت', key: 'status', align: 'center' },
 
 ])
 const statusOptions = ref([
@@ -180,14 +182,21 @@ const getStatusClass = (status) => {
 
 //Fetch data on component mount
 onMounted(async () => {
-  await fetchOrderList(); // صبر کن تا اطلاعات لود بشه
-
+  await fetchOrderList();
   nextTick(() => {
     if (items.value.length > 0) {
-      neshanMapRef.value?.fetchRandomRoute(
-        items.value[0].order_request.pickup_location, 
-        items.value[0].order_request.dropoff_location
-      );
+      const currnetOrder = items.value[0].order_request;
+      if (currnetOrder.pickup_lat && currnetOrder.pickup_lng && currnetOrder.dropoff_lat && currnetOrder.dropoff_lng) {
+        neshanMapRef.value?.fetchRoute(
+          { lat: currnetOrder.pickup_lat, lng: currnetOrder.pickup_lng },
+          { lat: currnetOrder.dropoff_lat, lng: currnetOrder.dropoff_lng }
+        );
+      } else {
+        neshanMapRef.value?.fetchRoute(
+          currnetOrder.pickup_location,
+          currnetOrder.dropoff_location
+        );
+      }
     }
   });
 });
@@ -195,5 +204,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-
+.status-cell {
+  min-width: 181px; // مقدار را به دلخواه تغییر دهید
+}
 </style>

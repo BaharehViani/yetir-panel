@@ -30,21 +30,6 @@
       <div class="flex flex-col items-center">
         <div class="w-2/3">
           <v-btn
-            base-color="primary"
-            rounded="lg"
-            block
-            size="x-large"
-            type="submit"
-            prepend-icon="mdi-truck-check"
-            class="font-weight-bold"
-            @click="() => selectUserTypeAndProceed('courier')"
-          >
-            ثبت‌نام به عنوان راننده
-          </v-btn>
-
-          <v-divider class="my-2"></v-divider>
-
-          <v-btn
             color="secondary"
             rounded="lg"
             block
@@ -55,6 +40,21 @@
             @click="() => selectUserTypeAndProceed('customer')"
           >
             ثبت‌نام به عنوان کاربر
+          </v-btn>
+
+          <v-divider class="my-2"></v-divider>
+
+          <v-btn
+            base-color="primary"
+            rounded="lg"
+            block
+            size="x-large"
+            type="submit"
+            prepend-icon="mdi-truck-check"
+            class="font-weight-bold"
+            @click="() => selectUserTypeAndProceed('courier')"
+          >
+            ثبت‌نام به عنوان پیک
           </v-btn>
         </div>
       </div>
@@ -99,7 +99,7 @@
               v-model="signUpForm.phone"
               label="شماره موبایل"
               dir="rtl"
-              placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
+              placeholder="۰۹۳۶۲۱۶۰۱۱۱"
               outlined
               dense
               @blur="signUpFormValidations.phone.$touch"
@@ -157,7 +157,7 @@
               v-model="signUpForm.phone"
               label="شماره موبایل"
               dir="rtl"
-              placeholder="۹۸-۹۳۶۲۱۶۰۱۱۱+"
+              placeholder="۰۹۳۶۲۱۶۰۱۱۱"
               outlined
               dense
             ></v-text-field>
@@ -207,7 +207,7 @@
               label="نام"
               dir="rtl"
               type="firstName"
-              placeholder="فاطمه"
+              placeholder="بهاره"
               outlined
               dense
               @blur="signUpFormValidations.firstName.$touch"
@@ -222,7 +222,7 @@
               label="نام خانوادگی"
               dir="rtl"
               type="lastName"
-              placeholder="علیمرادی"
+              placeholder="ویانی"
               outlined
               dense
               @blur="signUpFormValidations.lastName.$touch"
@@ -232,21 +232,6 @@
                   : null
               "
             ></v-text-field>
-            <v-text-field
-              v-model="signUpForm.maxCapacity"
-              label="ظرفیت بار"
-              type="capacity"
-              placeholder="۱۰ کیلوگرم"
-              outlined
-              dense
-              @blur="signUpFormValidations.maxCapacity.$touch"
-              :error-messages="
-                signUpFormValidations.maxCapacity.$error
-                  ? signUpFormValidations.maxCapacity.$errors[0].$message
-                  : null
-              "
-            >
-            </v-text-field>
             <v-text-field
               v-model="signUpForm.password"
               label="رمز عبور"
@@ -267,7 +252,7 @@
             ></v-text-field>
             <v-text-field
               v-model="signUpForm.image"
-              label="آدرس تصویر"
+              label="لینک تصویر"
               variant="outlined"
               prepend-icon=""
               append-inner-icon="mdi-image"
@@ -320,7 +305,7 @@
               v-model="signUpForm.firstName"
               label="نام"
               dir="rtl"
-              placeholder="فاطمه"
+              placeholder="بهاره"
               outlined
               dense
             ></v-text-field>
@@ -328,7 +313,7 @@
               v-model="signUpForm.lastName"
               label="نام خانوادگی"
               dir="rtl"
-              placeholder="علیمرادی"
+              placeholder="ویانی"
               outlined
               dense
             ></v-text-field>
@@ -391,7 +376,24 @@
           v-model="signUpForm.plateNum"
           v-model:vehicle="signUpForm.vehicle"
         />
-
+        <v-divider class="my-2"></v-divider>
+        <div class="flex flex-col items-center">
+          <v-text-field
+            class="w-2/3 text-center"
+            v-model="signUpForm.maxCapacity"
+            label="ظرفیت بار"
+            type="capacity"
+            placeholder="۱۰ کیلوگرم"
+            outlined
+            dense
+            @blur="signUpFormValidations.maxCapacity.$touch"
+            :error-messages="
+              signUpFormValidations.maxCapacity.$error
+                ? signUpFormValidations.maxCapacity.$errors[0].$message
+                : null
+            "
+          />
+        </div>
         <v-divider class="my-2"></v-divider>
         <div class="flex flex-col items-center">
           <div class="w-2/3">

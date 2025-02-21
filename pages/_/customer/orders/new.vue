@@ -55,7 +55,7 @@
               clearable
               placeholder="پاکت"
               row-height="8"
-              :items="['پاکت', 'جعبه کوچک','جعبه بزرگ','جعبه متوسط']"
+              :items="['پاکت', 'جعبه کوچک','جعبه متوسط','جعبه بزرگ']"
               variant="outlined"
             ></v-select>
           </v-col>
@@ -94,6 +94,10 @@ const newOrderRequestForm = ref({
   pickup_location: null,
   dropoff_location: null,
   weight: null,
+  pickup_lat: null,
+  pickup_lng: null,
+  dropoff_lat: null,
+  dropoff_lng: null,
 });
 
 const orderRequestFormSubmitHandler = async () => {
@@ -135,11 +139,15 @@ const isPickupSelected = ref(true);
 const setPickupSelected = (isPickup) => {
   isPickupSelected.value = isPickup;
 };
-const handleMapClick = ({ address }) => {
+const handleMapClick = ({ lat, lng, address }) => {
   if (isPickupSelected.value) {
     newOrderRequestForm.value.pickup_location = address;
+    newOrderRequestForm.value.pickup_lat = lat;
+    newOrderRequestForm.value.pickup_lng = lng;
   } else {
     newOrderRequestForm.value.dropoff_location = address;
+    newOrderRequestForm.value.dropoff_lat = lat;
+    newOrderRequestForm.value.dropoff_lng = lng;
   }
 };
 
