@@ -99,7 +99,7 @@ const orderAccepted = async (id) => {
 
           $swal.fire({
             title: "سفارش از سمت شما قبول شد",
-            text: "برای نمایش اطلاعات دقیقتر به صفحه سفارشات مراجعه کنید",
+            text: "برای نمایش اطلاعات دقیق تر به صفحه سفارشات مراجعه کنید",
             icon: "success",
             showConfirmButton: false,
             timer: 2000,

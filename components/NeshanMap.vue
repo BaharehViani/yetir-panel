@@ -40,12 +40,12 @@ function onInit(map: Map) {
   mapInstance = map;
   setTimeout(() => {
     const view = map?.getView();
-    view?.animate({
+    view.animate({
       center: fromLonLat([46.3038, 38.0702]),
-      zoom: 13,
-      duration: 1000,
+      zoom: 13.5,
+      duration: 1500,
     });
-  }, 0);
+  }, 200);
 
   const vectorSource = new VectorSource();
   const vectorLayer = new VectorLayer({

@@ -50,15 +50,15 @@ const items = ref([])
 
 // Table headers
 const headers = ref([
-  { title: 'شماره', key: 'id' },
-  { title: 'نوع بسته', key: 'type' },
-  { title: 'تاریخ ثبت', key: 'created-at' },
-  { title: 'مبدا', key: 'pickup_location' },
-  { title: 'مقصد', key: 'dropOff_location' },
-  { title: 'توضیحات', key: 'description' },
-  { title: 'وزن', key: 'weight' },
-  { title: 'هزینه ارسال', key: 'cost', align: 'center' },
-  { title: 'وضعیت', key: 'status' },
+  { title: 'شماره', key: 'id', align: 'center' },
+  { title: 'نوع بسته', key: 'type', align: 'center' },
+  { title: 'تاریخ ثبت', key: 'created-at', align: 'center' },
+  { title: 'مبدا', key: 'pickup_location', align: 'center' },
+  { title: 'مقصد', key: 'dropOff_location', align: 'center' },
+  { title: 'توضیحات', key: 'description', align: 'center' },
+  { title: 'وزن', key: 'weight', align: 'center' },
+  { title: 'هزینه ارسال', key: 'cost', align: 'center', align: 'center' },
+  { title: 'وضعیت', key: 'status', align: 'center' },
 ])
 
 // Fetch order list
