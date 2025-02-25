@@ -1,20 +1,16 @@
-<template>
-<div>
-  <div class="flex flex-column items-center rounded-2xl">
-    <div class="w-1/3">
-      <v-img :src="SearchingSVG"></v-img>
-    </div>
-    <div class="mt-10">اطلاعاتی برای نمایش در داشبورد شما وجود ندارد</div>
-  </div>
-</div>
-</template>
-
 <script setup>
-import SearchingSVG from '../../assets/images/searching.svg'
+import { useUserStore } from '../store/userStore'
+import { onMounted } from 'vue'
+const userStore = useUserStore()
 
+onMounted(() => {
+  if (userStore.userData.role === 'customer') {
+      navigateTo('/_/customer/')
+    } else if (userStore.userData.role === 'courier') {
+      navigateTo('/_/courier/')
+    }
+})
 definePageMeta({
   layout: 'panel',
 })
 </script>
-
-<style lang="scss" scoped></style>

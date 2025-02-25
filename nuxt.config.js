@@ -46,4 +46,5 @@ export default defineNuxtConfig({
         '@mdi/font/css/materialdesignicons.min.css',
         '~/assets/scss/core.scss',
     ],
+    plugins: ["~/plugins/apexcharts.js"],
 })

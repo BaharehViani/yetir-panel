@@ -101,7 +101,7 @@ const menuItems = computed(
     ({
       customer: [
         {
-          link: '/_',
+          link: '/_/customer',
           label: 'داشبورد',
           icon: 'mdi-view-dashboard',
           iconClass: '',
@@ -122,7 +122,7 @@ const menuItems = computed(
           class: 'bg-[#4880FF]',
         },
         {
-          link: '/_/customer/orders/',
+          link: '/_/customer/orders',
           label: 'لیست سفارشات',
           icon: 'mdi-format-list-bulleted',
           iconClass: 'rotate-180',
