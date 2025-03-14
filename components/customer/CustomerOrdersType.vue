@@ -9,9 +9,6 @@
           :series="chartSeries" 
         />
       </div>
-      <!-- <div class="text-center">
-        <h3> تعداد کل سفارشات تحویل داده شده: {{ totalDeliveredOrders }}</h3>
-      </div> -->
     </div>
 </template>
   
@@ -28,7 +25,7 @@ const chartOptions = ref({
       fontFamily: "Yekan Bakh FaNum",
     },
     title: {
-      text: "آمار سفارشات تحویل داده شده",  
+      text: "آمار سفارشات ارسال شده",  
       align: "center",
     },
     labels: ['پاکت', 'جعبه کوچک', 'جعبه متوسط', 'جعبه بزرگ'], 
@@ -50,9 +47,9 @@ const chartOptions = ref({
   
 const fetchStats = async () => {
     try {
-      const response = await axiosInstance.get('/courier/orders/types'); 
+      const response = await axiosInstance.get('/customer/orders/types'); 
   
-      totalDeliveredOrders.value = response.data.total_delivered_orders;
+      totalDeliveredOrders.value = response.data.total_sent_orders;
   
       chartSeries.value = [
         response.data.packages.pocket,     
@@ -81,6 +78,5 @@ onMounted(fetchStats);
 </script>
   
 <style scoped>
-
 </style>
   

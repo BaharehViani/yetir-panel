@@ -107,7 +107,7 @@ const orderRequestFormSubmitHandler = async () => {
 
     $swal.fire({
       icon: "success",
-      title: "سفارش شما با موفقیت ثبت شد",
+      title: "درخواست شما با موفقیت ثبت شد",
       draggable: true,
       position: 'center',
       timer: 2000,
@@ -126,7 +126,7 @@ const orderRequestFormSubmitHandler = async () => {
 
     $swal.fire({
       icon: "error",
-      title: "مشکل در ثبت سفارش",
+      title: "مشکل در ثبت درخواست",
       draggable: true,
       position: 'center',
       timer: 2000,

@@ -21,11 +21,6 @@ const chartOptions = ref({
   chart: { type: "bar", height: 350, fontFamily: "Yekan Bakh FaNum" },
   title: {
     text: "آمار درآمد سالانه", align: "center",
-    // style: {
-    //   fontSize: "18px",
-    //   fontWeight: "bold",
-    //   color: "#333"
-    // }
   },
   plotOptions: { bar: { horizontal: false, columnWidth: "55%", endingShape: "rounded" } },
   dataLabels: { enabled: false },
@@ -33,11 +28,24 @@ const chartOptions = ref({
   xaxis: { categories: persianMonths,
     labels: {
       style: {
-        fontFamily: "Yekan Bakh FaNum",  // فونت محورها
+        fontFamily: "Yekan Bakh FaNum",
       },
     }, },
   yaxis: { title: { text: "درآمد (تومان)" } },
-  fill: { opacity: 1 },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "light",
+      type: "vertical",
+      shadeIntensity: 0.5,
+      gradientToColors: ["#008FFB"],  // رنگ دوم
+      inverseColors: false,
+      opacity: 1,
+      stops: [0, 100]
+    },
+    opacity: 1,
+    colors: "#01E195",
+},
   tooltip: { y: { formatter: (val) => val.toLocaleString() } },
 });
 

@@ -106,7 +106,7 @@ const updateStatus = async (item, newValue) => {
 
       $swal.fire({
         icon: 'question',
-        title: 'ایا از کنسل کردن سفارش مطمئن هستید؟',
+        title: 'آیا از کنسل کردن سفارش مطمئن هستید؟',
         showCancelButton: true,
         confirmButtonColor: "#8FD14F",
         cancelButtonColor: "#d33",

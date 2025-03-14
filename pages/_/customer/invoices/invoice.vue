@@ -77,7 +77,7 @@ const fetchOrderList = async () => {
 const update = async (item) => {
   try {
     const response = await axiosInstance.patch(`/customer/invoices/${item.id}`)
-    console.log(response)
+    window.location.reload();
   } catch (e) {
     console.error('Error fetching invoice list:', e)
   }

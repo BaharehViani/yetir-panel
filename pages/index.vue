@@ -41,32 +41,7 @@
         </div>
         <div class="ml-12">
           <v-img :src="PostMan" alt="postman" width="589" height="823"></v-img>
-
-          <div class="absolute justify-space-between flex text-right bottom-96 left-6 bg-white text-black px-6 py-3 h-[77px] w-[220px] rounded-lg shadow-lg text-[16px]">
-            <div class="flex ml-2">
-              <v-avatar color="green" class="mt-1.5">
-              </v-avatar>
-            </div>
-            <div>
-              ۳۰۰+
-              سفارش‌های در حال ارسال
-            </div>
-
-          </div>
-          <div class="absolute justify-space-between flex text-right bottom-64 left-96 bg-white text-black px-9 py-3 h-[77px] w-[220px] rounded-lg shadow-lg text-[16px]">
-            <div class="flex ml-2">
-              <v-avatar color="blue" class="mt-1.5">
-              </v-avatar>
-            </div>
-            <div>
-              ۲۶۰+
-              تحویل موفق امروز
-            </div>
-
-          </div>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -75,11 +50,13 @@
 <script setup>
 import Logo from 'assets/images/logolanding.png'
 import PostMan from 'assets/images/postman.png'
-// onMounted(() => {
-//   navigateTo('/_')
-// })
-
-import User1 from 'assets/images/user1.png'
+import { onMounted } from "vue";
+onMounted(() => {
+  const extraDiv = document.querySelector('div[style*="height: 300vh"]');
+  if (extraDiv) {
+    extraDiv.remove();
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -90,8 +67,6 @@ import User1 from 'assets/images/user1.png'
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  min-height: 100vh;
-
   background: linear-gradient(
           90deg,
           rgba(94, 252, 232, 1) 0%,

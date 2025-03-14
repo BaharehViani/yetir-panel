@@ -20,7 +20,8 @@
       title: { text: 'روز های ماه' }
     },
     yaxis: {
-      title: { text: 'تعداد سفارشات' }
+      title: { text: 'تعداد سفارشات' },
+      tickAmount: 5,
     },
     stroke: { curve: 'smooth' },
     title: {

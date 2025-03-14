@@ -30,10 +30,10 @@ const chartOptions = ref({
       shadeIntensity: 0.5,
       colorScale: { 
         ranges: [
-          { from: 0, to: 0, color: '#e0f7e9' }, 
-          { from: 1, to: 1, color: '#b2f0b5' }, 
-          { from: 2, to: 3, color: '#74e377' }, 
-          { from: 4, to: 20, color: '#32cd32' }
+          { from: 0, to: 1, color: '#e0f7e9' }, 
+          { from: 2, to: 3, color: '#b2f0b5' }, 
+          { from: 4, to: 5, color: '#74e377' }, 
+          { from: 6, to: 20, color: '#32cd32' }
         ] 
       }
     }

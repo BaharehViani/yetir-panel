@@ -1,38 +1,31 @@
-<!-- <div class="pr-2 pt-1 mb-4 text-3xl text-[#141A31]">داشبورد پیک</div> -->
 <template>
   <v-container>
     <v-row>
-      <v-col cols="7">
-        <v-card>
-          <v-card-text>
-            <CourierIncome />
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="5">
-        <v-card>
-          <v-card-text>
-            <CourierOrdersType />
-          </v-card-text>
+      <v-col cols="12">
+        <v-card class="elevation-6 pt-3">
+          <CourierIncome />
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-5">
       <v-col cols="6">
-        <v-card>
-          <v-card-text>
-            <CourierHeatmap />
-          </v-card-text>
+        <v-card class="elevation-6 pt-3">
+          <CourierHeatmap />
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card>
-          <v-card-text>
+        <v-card class="elevation-6 pt-3">
+          <CourierOrdersType />
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row class="mt-5">
+      <v-col cols="12">
+        <v-card class="elevation-6 pt-3">
             <CourierDailyOrdersCount />
-          </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row>  
   </v-container>
 </template>
 
