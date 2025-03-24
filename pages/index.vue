@@ -1,7 +1,7 @@
 <template>
   <div class="bg">
     <div class="w-full">
-      <div class="bg-white ml-16 mt-10 mx-16 rounded-2xl p-4 shadow-lg">
+      <div class="bg-white mt-10 mx-20 rounded-2xl p-4 shadow-lg">
         <div class="flex justify-between items-center">
           <div class="flex justify-between items-center">
             <div>
@@ -31,16 +31,16 @@
             <span class="text-[#0047FF]">یتیر</span>
             ، ارسال سریع و مطمئن مرسولات درون‌شهری را تجربه کنید!
           </div>
-          <div class="text-l mt-4 text-[#E3E3E3]">
+          <div class="text-[26px] mt-4 text-[#2c3659]">
             مهم نیست بسته ای که میخوای بفرستی پاکت باشه یا جعبه، بزرگ باشه یا کوچیک، سنگین باشه یا سبک
             ما سالم میرسونیمش به مقصد!
           </div>
-          <div class="mt-6 ml-96">
-            <v-btn block prepend-icon="mdi-login-variant" color="#0047FF" rounded="xl" @click="navigateTo('/sign-up')">همین الان شروع کن</v-btn>
+          <div class="mt-8 flex justify-start">
+            <v-btn style="width: 300px; font-size: 17px; height: 42px;" prepend-icon="mdi-login-variant" color="#0047FF" rounded="xl" @click="navigateTo('/sign-up')">همین الان شروع کن</v-btn>
           </div>
         </div>
         <div class="ml-12">
-          <v-img :src="PostMan" alt="postman" width="589" height="823"></v-img>
+          <v-img :src="PostMan" alt="postman" width="800" height="570"></v-img>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
 
 <script setup>
 import Logo from 'assets/images/logolanding.png'
-import PostMan from 'assets/images/postman.png'
+import PostMan from 'assets/images/courier_pic.png'
 import { onMounted } from "vue";
 onMounted(() => {
   const extraDiv = document.querySelector('div[style*="height: 300vh"]');
@@ -61,16 +61,13 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .bg {
+  min-height: 100vh;
   display: flex;
   justify-content: start;
   align-items: start;
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  background: linear-gradient(
-          90deg,
-          rgba(94, 252, 232, 1) 0%,
-          rgba(115, 110, 254, 1) 100%
-  );
+  background: linear-gradient(109.6deg, rgb(9, 154, 151) 11.2%, rgb(21, 205, 168) 91.1%);
 }
 </style>
