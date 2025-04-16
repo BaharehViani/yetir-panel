@@ -8,7 +8,6 @@
   import { ref, onMounted } from "vue";
   import axiosInstance from "~/utils/axiosinstance.js";
   
-  // تبدیل شماره ماه به نام فارسی
   const persianMonths = [
     "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
     "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
@@ -21,7 +20,7 @@
       toolbar: { show: false },
     },
     xaxis: {
-      categories: persianMonths, // اسم ماه‌ها به‌جای اعداد
+      categories: persianMonths,
       title: { text: "ماه‌های سال" }
     },
     yaxis: {
@@ -61,15 +60,21 @@
       const canceled = Array(12).fill(0);
   
       data.forEach((item) => {
-        const index = item.month - 1; // چون آرایه از ۰ شروع میشه
+        const index = item.month - 1;
         requests[index] = item.requests;
         delivered[index] = item.delivered;
         canceled[index] = item.canceled;
       });
   
-      chartSeries.value[2].data = requests;
-      chartSeries.value[1].data = delivered;
-      chartSeries.value[0].data = canceled;
+      // chartSeries.value[2].data = requests;
+      // chartSeries.value[1].data = delivered;
+      // chartSeries.value[0].data = canceled;
+      //----------------------------------
+      // fake data
+      chartSeries.value[2].data = [7, 9, 4, 5, 10, 6, 8, 3, 9, 8, 3, 12]
+      chartSeries.value[1].data = [7, 8, 3, 5, 10, 6, 7, 3, 7, 8, 3, 11]
+      chartSeries.value[0].data = [0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1]
+      //----------------------------------
     } catch (error) {
       console.error("خطا در دریافت داده‌ها:", error);
     }

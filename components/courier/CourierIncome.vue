@@ -8,14 +8,12 @@
 import { ref, onMounted } from "vue";
 import axiosInstance from "~/utils/axiosinstance.js";
 
-// آرایه ماه‌های فارسی
 const persianMonths = [
   "فروردین", "اردیبهشت", "خرداد", "تیر",
   "مرداد", "شهریور", "مهر", "آبان",
   "آذر", "دی", "بهمن", "اسفند"
 ];
 
-// مقادیر اولیه نمودار
 const chartSeries = ref([]);
 const chartOptions = ref({
   chart: { type: "bar", height: 350, fontFamily: "Yekan Bakh FaNum" },
@@ -38,7 +36,7 @@ const chartOptions = ref({
       shade: "light",
       type: "vertical",
       shadeIntensity: 0.5,
-      gradientToColors: ["#008FFB"],  // رنگ دوم
+      gradientToColors: ["#008FFB"], 
       inverseColors: false,
       opacity: 1,
       stops: [0, 100]
@@ -49,32 +47,39 @@ const chartOptions = ref({
   tooltip: { y: { formatter: (val) => val.toLocaleString() } },
 });
 
-// دریافت داده‌ها از سرور
 const fetchStats = async () => {
   try {
     const response = await axiosInstance.get("/courier/orders/income");
 
-    // ایجاد آرایه پیش‌فرض برای 12 ماه سال
     const stats = Array(12).fill({ total_income: 0 });
 
-    // مقداردهی بر اساس داده‌های دریافتی
     response.data.forEach((item) => {
-      const monthIndex = item.jalali_month - 1; // چون آرایه از 0 شروع می‌شود
+      const monthIndex = item.jalali_month - 1;
       stats[monthIndex] = {
         total_income: item.total_income
       };
     });
 
-    // به‌روزرسانی داده‌های نمودار
+    // chartSeries.value = [
+    //   { name: "درآمد (تومان)", data: stats.map((item) => item.total_income) },
+    // ];
+
+    //-----------------------------------
+    // fake data
+    const fakeIncomeData = [
+      320000, 470000, 690000, 540000,
+      880000, 750000, 630000, 410000,
+      570000, 340000, 290000, 610000
+    ]
     chartSeries.value = [
-      { name: "درآمد (تومان)", data: stats.map((item) => item.total_income) },
-    ];
+      { name: "درآمد (تومان)", data: fakeIncomeData }
+    ]
+    //-----------------------------------
   } catch (error) {
     console.error("خطا در دریافت آمار: ", error);
   }
 };
 
-// اجرا هنگام لود شدن کامپوننت
 onMounted(fetchStats);
 </script>
 

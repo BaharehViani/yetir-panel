@@ -20,7 +20,7 @@
           </div>
 
           <v-btn prepend-icon="mdi-login-variant" color="#0047FF" rounded="lg" @click="navigateTo('/login')">
-            ورود به حساب
+            ورود به حساب کاربری
           </v-btn>
         </div>
       </div>
