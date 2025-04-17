@@ -131,7 +131,7 @@ const menuItems = computed(
         {
           link: '/_/customer/invoices/invoice',
           label: 'فاکتور ها و پرداخت ',
-          icon: 'mdi-view-dashboard',
+          icon: 'mdi-cash-multiple',
           iconClass: '',
           class: 'bg-[#4880FF]',
         },
@@ -163,6 +163,13 @@ const menuItems = computed(
           label: 'لیست سفارشات',
           icon: 'mdi-format-list-bulleted',
           iconClass: 'rotate-180',
+          class: 'bg-[#4880FF]',
+        },
+        {
+          link: '/_/courier/invoices/invoice',
+          label: 'تسویه حساب',
+          icon: 'mdi-cash-multiple',
+          iconClass: '',
           class: 'bg-[#4880FF]',
         },
       ],
