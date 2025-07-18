@@ -42,12 +42,12 @@ const fetchOrdersData = async () => {
     const response = await axiosInstance.get('/courier/orders/count')
     const data = response.data
 
-    if (!data.length) return
+    // if (!data.length) return
 
-    const { jalali_year, jalali_month } = data[0]
-    const daysInMonth = jalaali.jalaaliMonthLength(jalali_year, jalali_month)
+    // const { jalali_year, jalali_month } = data[0]
+    // const daysInMonth = jalaali.jalaaliMonthLength(jalali_year, jalali_month)
 
-    const labels = Array.from({ length: daysInMonth }, (_, i) => `${jalali_year}/${jalali_month}/${i + 1}`)
+    // const labels = Array.from({ length: daysInMonth }, (_, i) => `${jalali_year}/${jalali_month}/${i + 1}`)
     
     // const orderCounts = labels.map(day => {
     //   const order = data.find(o => `${o.jalali_year}/${o.jalali_month}/${o.jalali_day}` === day)
