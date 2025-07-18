@@ -48,6 +48,7 @@ const fetchOrdersData = async () => {
     // const daysInMonth = jalaali.jalaaliMonthLength(jalali_year, jalali_month)
 
     // const labels = Array.from({ length: daysInMonth }, (_, i) => `${jalali_year}/${jalali_month}/${i + 1}`)
+    const labels = Array.from({ length: 30 }, (_, i) => `1404/04/${i + 1}`)
     
     // const orderCounts = labels.map(day => {
     //   const order = data.find(o => `${o.jalali_year}/${o.jalali_month}/${o.jalali_day}` === day)
