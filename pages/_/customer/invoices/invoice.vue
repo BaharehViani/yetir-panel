@@ -33,7 +33,7 @@
               color="primary"
               class="rounded w-25"
               :disabled="item.status !== 'pending'"
-              @click="() => update(item)"
+              @click="() => payInvoice(item)"
             >
               پرداخت
             </v-btn>
@@ -73,15 +73,20 @@ const fetchOrderList = async () => {
   }
 }
 
-// Update the order status (for example, to mark as paid)
-const update = async (item) => {
-  try {
-    const response = await axiosInstance.patch(`/customer/invoices/${item.id}`)
-    window.location.reload();
-  } catch (e) {
-    console.error('Error fetching invoice list:', e)
-  }
+const payInvoice = (invoice) => {
+  window.location.href = `http://127.0.0.1:8000/payment/${invoice.id}`
 }
+
+
+// Update the order status (for example, to mark as paid)
+// const update = async (item) => {
+//   try {
+//     const response = await axiosInstance.patch(`/customer/invoices/${item.id}`)
+//     window.location.reload();
+//   } catch (e) {
+//     console.error('Error updating invoice status:', e)
+//   }
+// }
 
 // Helper function to determine the class based on the order status
 const getStatusClass = (status) => {
