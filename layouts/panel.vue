@@ -193,7 +193,7 @@ const { $swal } = useNuxtApp()
 const SupportCall = async ()=> {
 
   $swal.fire({
-    title: "برای ارتباط با پشتیبانی با شماره ۰۴۱۳۳۳۵۱۵۴۶ تماس بگیرید",
+    title: "برای ارتباط با پشتیبانی با شماره ۰۹۳۵۸۶۰۰۳۴۷ تماس بگیرید",
     showClass: {
       popup: `
         animate__animated

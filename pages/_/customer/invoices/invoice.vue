@@ -51,6 +51,8 @@ import axiosInstance from '~/utils/axiosinstance.js'
 import { formatPrice } from '../../../../utils/numbers.js'
 
 const items = ref([])
+const { $swal } = useNuxtApp()
+const route = useRoute()
 
 // Column headers for the data table
 const headers = ref([
@@ -76,7 +78,6 @@ const fetchOrderList = async () => {
 const payInvoice = (invoice) => {
   window.location.href = `http://127.0.0.1:8000/payment/${invoice.id}`
 }
-
 
 // Update the order status (for example, to mark as paid)
 // const update = async (item) => {
@@ -117,6 +118,25 @@ const getStatusPersian = (status) => {
 
 onMounted(() => {
   fetchOrderList()
+  const { status, ref_id, msg } = route.query
+  if (status === 'success') {
+    $swal.fire({
+      icon: 'success',
+      title: 'پرداخت موفق',
+      text: `پرداخت شما با موفقیت انجام شد. شماره پیگیری: ${ref_id}`,
+      confirmButtonText: 'باشه',
+      confirmButtonColor: "#34ebe8",
+    })
+  } else if (status === 'failed') {
+    $swal.fire({
+      icon: 'error',
+      title: 'پرداخت ناموفق',
+      text: msg || 'مشکلی در پرداخت پیش آمد',
+      confirmButtonText: 'باشه',
+      confirmButtonColor: "#34ebe8",
+    })
+  }
+  window.history.replaceState({}, document.title, window.location.pathname)
 })
 
 // Define page meta for this layout
